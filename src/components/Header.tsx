@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, ArrowUpRight, Compass, ShieldCheck } from 'lucide-react';
+import { Search, Menu, X, ArrowRight } from 'lucide-react';
 import { useSmoothScroll } from './SmoothScrollProvider';
 
 interface HeaderProps {
-  onOpenSearch?: () => void;
   onRequestQuote: () => void;
+  onExploreEngines: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onRequestQuote }) => {
+export const Header: React.FC<HeaderProps> = ({ onRequestQuote, onExploreEngines }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState('Home');
   const { scrollTo } = useSmoothScroll();
 
   useEffect(() => {
@@ -20,18 +21,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onRequestQuote }) 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
+  // Shipping removed per user request
+  const navItems = [
     { label: 'Home', target: '#hero' },
-    { label: 'Our Engines', target: '#engine-range' },
-    { label: 'Engine Sourcing', target: '#engine-sourcing' },
-    { label: 'Global Shipping', target: '#global-shipping' },
-    { label: 'About Us', target: '#about-us' },
+    { label: 'Engines', target: '#engine-catalog' },
+    { label: 'About', target: '#about-us' },
     { label: 'Contact', target: '#contact' },
   ];
 
-  const handleNavClick = (target: string) => {
+  const handleNavClick = (label: string, target: string) => {
+    setActiveTab(label);
     setMobileMenuOpen(false);
-    scrollTo(target, { offset: -70, duration: 1.2 });
+    scrollTo(target, { offset: -70, duration: 1.1 });
   };
 
   return (
@@ -39,75 +40,99 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onRequestQuote }) 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-xs border-b border-zinc-200/80 py-3.5'
-          : 'bg-white/90 backdrop-blur-xs border-b border-zinc-200/50 py-5'
+          : 'bg-white/85 backdrop-blur-sm border-b border-zinc-200/40 py-4.5'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between">
-          {/* Brand Logo & Editorial Title */}
+          {/* Logo Brand: Matching hero section reference */}
           <button
-            onClick={() => handleNavClick('#hero')}
-            className="flex items-center gap-3 text-left group cursor-pointer focus:outline-none"
+            onClick={() => handleNavClick('Home', '#hero')}
+            className="flex items-center gap-3 text-left cursor-pointer focus:outline-none group"
           >
-            <div className="w-8 h-8 rounded-sm bg-[#121316] text-white flex items-center justify-center font-heading font-extrabold text-sm tracking-wider transition-transform duration-200 group-hover:scale-105">
-              <span className="text-emerald-400">A</span>S
+            {/* Stylized AE Monogram */}
+            <div className="flex items-center">
+              <svg
+                width="34"
+                height="32"
+                viewBox="0 0 34 32"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                className="transition-transform group-hover:scale-105"
+              >
+                <path
+                  d="M11.5 2.5L2 29.5H8L10 23.5H16.5L14 16H11.5L13 11.5L17.5 24.5L19 29.5H23L15.5 2.5H11.5Z"
+                  fill="#0f172a"
+                />
+                <rect x="18" y="5.5" width="13" height="4.5" rx="0.5" fill="#a31414" />
+                <rect x="18.5" y="14" width="10.5" height="4.5" rx="0.5" fill="#a31414" />
+                <rect x="18" y="22.5" width="13" height="4.5" rx="0.5" fill="#a31414" />
+              </svg>
             </div>
+
+            {/* Brand text */}
             <div className="flex flex-col">
-              <span className="font-heading font-bold text-sm sm:text-base tracking-tight text-[#121316] leading-none group-hover:text-[#144b37] transition-colors">
-                AL-SABAH MOTORS <span className="text-[10px] font-mono text-zinc-600 font-normal">UAE</span>
+              <span className="font-heading font-black text-sm sm:text-base tracking-tight text-[#0f172a] uppercase leading-none">
+                AUTO ENGINES
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-widest text-zinc-600 leading-tight mt-0.5">
-                Automotive Engine Supply
+              <span className="text-[9px] uppercase font-mono tracking-[0.22em] text-zinc-500 font-medium mt-1">
+                DUBAI · GLOBAL SUPPLY
               </span>
             </div>
           </button>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-7 text-xs font-medium uppercase tracking-wider text-zinc-600">
-            {navLinks.map((link) => (
-              <button
-                key={link.label}
-                onClick={() => handleNavClick(link.target)}
-                className="hover:text-[#121316] hover:text-[#144b37] transition-colors relative py-1 cursor-pointer focus:outline-none after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1.5px] after:bg-[#144b37] hover:after:w-full after:transition-all after:duration-200"
-              >
-                {link.label}
-              </button>
-            ))}
+          {/* Center Navigation Links: Home, Engines, About, Contact (Shipping removed) */}
+          <nav className="hidden md:flex items-center space-x-10 text-sm font-medium text-zinc-700">
+            {navItems.map((item) => {
+              const isActive = activeTab === item.label;
+              return (
+                <button
+                  key={item.label}
+                  onClick={() => handleNavClick(item.label, item.target)}
+                  className="relative py-1 cursor-pointer transition-colors hover:text-[#0f172a] focus:outline-none text-[14px] tracking-normal"
+                >
+                  <span className={isActive ? 'text-[#0f172a] font-semibold' : 'text-zinc-600'}>
+                    {item.label}
+                  </span>
+                  {isActive && (
+                    <span className="absolute -bottom-1.5 left-0 right-0 h-[2.5px] bg-[#a31414] rounded-full" />
+                  )}
+                </button>
+              );
+            })}
           </nav>
 
-          {/* Right Header Actions */}
-          <div className="hidden sm:flex items-center space-x-3">
-            {onOpenSearch && (
-              <button
-                onClick={onOpenSearch}
-                aria-label="Search engines"
-                className="p-2 text-zinc-500 hover:text-[#121316] hover:bg-zinc-100 rounded-sm transition-colors cursor-pointer"
-                title="Search engine inventory"
-              >
-                <Search className="w-4 h-4" />
-              </button>
-            )}
+          {/* Right Action Buttons */}
+          <div className="hidden sm:flex items-center space-x-4">
+            <button
+              onClick={onExploreEngines}
+              aria-label="Search engines"
+              className="p-2 text-zinc-600 hover:text-[#a31414] transition-colors cursor-pointer"
+              title="Search engines"
+            >
+              <Search className="w-4 h-4 stroke-[2]" />
+            </button>
 
             <button
               onClick={onRequestQuote}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium uppercase tracking-wider text-white bg-[#144b37] hover:bg-[#0f3829] active:scale-[0.99] transition-all rounded-xs cursor-pointer shadow-xs"
+              className="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.98] transition-all rounded-md shadow-xs cursor-pointer"
             >
               <span>Request a Quote</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu toggle */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={onRequestQuote}
-              className="px-3 py-1.5 text-[11px] font-medium uppercase tracking-wider text-white bg-[#144b37] rounded-xs"
+              className="px-3 py-1.5 text-xs font-semibold text-white bg-[#a31414] rounded-md"
             >
               Quote
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 text-zinc-700 hover:text-black rounded-sm focus:outline-none cursor-pointer"
+              className="p-1.5 text-zinc-800"
               aria-label="Toggle menu"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -116,48 +141,35 @@ export const Header: React.FC<HeaderProps> = ({ onOpenSearch, onRequestQuote }) 
         </div>
       </div>
 
-      {/* Mobile Navigation Drawer */}
+      {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white border-b border-zinc-200 px-6 py-6 shadow-xl animate-in slide-in-from-top-4 duration-200">
-          <div className="flex flex-col space-y-4">
-            <div className="flex items-center gap-2 pb-3 border-b border-zinc-100 text-xs font-mono text-zinc-500">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Dedicated UAE Engine Supply Hub</span>
-            </div>
-
-            {navLinks.map((link) => (
+        <div className="md:hidden bg-white border-b border-zinc-200 px-6 py-5 shadow-lg animate-in slide-in-from-top-2">
+          <div className="flex flex-col space-y-3.5">
+            {navItems.map((item) => (
               <button
-                key={link.label}
-                onClick={() => handleNavClick(link.target)}
-                className="text-left text-sm font-heading font-medium tracking-wide text-zinc-800 hover:text-[#144b37] py-1 border-b border-zinc-50"
+                key={item.label}
+                onClick={() => handleNavClick(item.label, item.target)}
+                className={`text-left text-sm py-2 border-b border-zinc-100 flex items-center justify-between ${
+                  activeTab === item.label ? 'text-[#a31414] font-semibold' : 'text-zinc-700'
+                }`}
               >
-                {link.label}
+                <span>{item.label}</span>
+                {activeTab === item.label && (
+                  <span className="w-2 h-2 rounded-full bg-[#a31414]" />
+                )}
               </button>
             ))}
 
-            <div className="pt-3 flex flex-col gap-2">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  if (onOpenSearch) onOpenSearch();
-                }}
-                className="flex items-center justify-center gap-2 w-full py-2.5 text-xs font-medium uppercase tracking-wider text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-xs"
-              >
-                <Search className="w-3.5 h-3.5" />
-                <span>Search Engine Catalogue</span>
-              </button>
-
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onRequestQuote();
-                }}
-                className="flex items-center justify-center gap-2 w-full py-3 text-xs font-medium uppercase tracking-wider text-white bg-[#144b37] hover:bg-[#0f3829] rounded-xs"
-              >
-                <span>Request a Quote</span>
-                <ArrowUpRight className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={() => {
+                setMobileMenuOpen(false);
+                onRequestQuote();
+              }}
+              className="mt-2 flex items-center justify-center gap-2 w-full py-3 text-xs font-semibold uppercase tracking-wider text-white bg-[#a31414] hover:bg-[#881010] rounded-md"
+            >
+              <span>Request a Quote</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </div>
         </div>
       )}

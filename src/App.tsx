@@ -2,15 +2,10 @@ import React, { useState } from 'react';
 import { SmoothScrollProvider, useSmoothScroll } from './components/SmoothScrollProvider';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
-import { TrustStrip } from './components/TrustStrip';
 import { ContinuousMarquee } from './components/ContinuousMarquee';
 import { EngineCatalog } from './components/EngineCatalog';
-import { SignatureEditorial } from './components/SignatureEditorial';
-import { CompatibilityFinder } from './components/CompatibilityFinder';
-import { SourcingProcess } from './components/SourcingProcess';
-import { ShippingSection } from './components/ShippingSection';
 import { AboutSection } from './components/AboutSection';
-import { QuoteEnquirySection } from './components/QuoteEnquirySection';
+import { EnquirySection } from './components/EnquirySection';
 import { Footer } from './components/Footer';
 import { EngineDetailsModal } from './components/EngineDetailsModal';
 import { EngineItem } from './types/engine';
@@ -22,81 +17,56 @@ function MainWebsite() {
 
   const handleSelectEngineForEnquiry = (engine: EngineItem) => {
     setPrefilledEngine(engine);
-    scrollTo('#contact', { offset: -70, duration: 1.4 });
-  };
-
-  const handleOpenSearch = () => {
-    scrollTo('#engine-range', { offset: -70, duration: 1.2 });
+    scrollTo('#contact', { offset: -70, duration: 1.2 });
   };
 
   const handleRequestQuote = () => {
-    scrollTo('#contact', { offset: -70, duration: 1.4 });
+    scrollTo('#contact', { offset: -70, duration: 1.2 });
   };
 
   const handleExploreEngines = () => {
-    scrollTo('#engine-range', { offset: -70, duration: 1.2 });
+    scrollTo('#engine-catalog', { offset: -70, duration: 1.1 });
   };
 
   return (
-    <div className="relative min-h-screen bg-[#fafaf9] text-[#121316] font-sans selection:bg-[#144b37] selection:text-white">
-      {/* Slim Header & Navigation */}
+    <div className="relative min-h-screen bg-white text-[#0f172a] font-sans selection:bg-[#a31414] selection:text-white">
+      {/* Top Navigation Bar */}
       <Header
-        onOpenSearch={handleOpenSearch}
         onRequestQuote={handleRequestQuote}
+        onExploreEngines={handleExploreEngines}
       />
 
-      {/* Main Sections */}
+      {/* Main Flow */}
       <main>
-        {/* 1. Cinematic Hero Section */}
+        {/* 1. Exact Hero Section (Dubai showroom, Burj Khalifa view, engine on right) */}
         <Hero
           onExploreEngines={handleExploreEngines}
           onRequestQuote={handleRequestQuote}
         />
 
-        {/* 2. Trust & Business Highlights */}
-        <TrustStrip />
-
-        {/* 3. Continuous Typography Marquee */}
+        {/* 2. Seamless Typography Ticker */}
         <ContinuousMarquee />
 
-        {/* 4. Our Engine Range & Catalogue */}
+        {/* 3. Filterable Engine Catalogue (Easily filter by brand, condition, fuel, search) */}
         <EngineCatalog
           onSelectEngineForEnquiry={handleSelectEngineForEnquiry}
           onViewDetails={(engine) => setInspectingEngine(engine)}
         />
 
-        {/* 5. Signature Editorial Section */}
-        <SignatureEditorial
-          onDiscussRequirements={handleRequestQuote}
-        />
-
-        {/* 6. Find The Right Engine (Vehicle Compatibility) */}
-        <CompatibilityFinder
-          onSuccessRedirect={handleRequestQuote}
-        />
-
-        {/* 7. Engine Sourcing Process */}
-        <SourcingProcess />
-
-        {/* 8. UAE Base & Global Shipping */}
-        <ShippingSection
-          onEnquireShipping={handleRequestQuote}
-        />
-
-        {/* 9. About The Company */}
+        {/* 4. About The Company (Dubai Engine Supply) */}
         <AboutSection />
 
-        {/* 10. Customer Enquiries & Quote Requests */}
-        <QuoteEnquirySection
+        {/* 5. Customer Enquiries & Quote Requests Form */}
+        <EnquirySection
           prefilledEngine={prefilledEngine}
           onClearPrefill={() => setPrefilledEngine(null)}
         />
       </main>
 
-      {/* Footer */}
+      {/* 6. Footer (Synchronized with top bar AE branding, red accents, Dubai contact) */}
       <Footer />
 
-      {/* Engine Technical Details Modal */}
+      {/* Engine Technical Specifications Sheet Modal */}
       <EngineDetailsModal
         engine={inspectingEngine}
         onClose={() => setInspectingEngine(null)}

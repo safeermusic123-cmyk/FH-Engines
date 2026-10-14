@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
-import { ArrowDown, ArrowUpRight, Check, Disc, Shield } from 'lucide-react';
+import { ArrowRight, MapPin, ShieldCheck, Globe, Headphones } from 'lucide-react';
 import { gsap, useGSAP } from '../lib/gsap';
-import { useSmoothScroll } from './SmoothScrollProvider';
+import heroDubaiEngineImg from '../assets/images/hero_dubai_engine_1791999771827.jpg';
 
 interface HeroProps {
   onExploreEngines: () => void;
@@ -10,87 +10,62 @@ interface HeroProps {
 
 export const Hero: React.FC<HeroProps> = ({ onExploreEngines, onRequestQuote }) => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const imageWrapperRef = useRef<HTMLDivElement>(null);
-  const { scrollTo } = useSmoothScroll();
 
   useGSAP(
     () => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      // Eyebrow reveal
-      tl.from('.hero-eyebrow', {
-        y: 16,
+      tl.from('.hero-loc', {
+        y: 14,
         opacity: 0,
         duration: 0.6,
       })
-      // Line by line headline reveal
       .from(
-        '.hero-line',
+        '.hero-title-line-1',
         {
-          y: 40,
-          opacity: 0,
+          yPercent: 100,
           duration: 0.85,
-          stagger: 0.15,
+          ease: 'power4.out',
         },
         '-=0.3'
       )
-      // Supporting text
       .from(
-        '.hero-support',
+        '.hero-title-line-2',
+        {
+          yPercent: 100,
+          duration: 0.85,
+          ease: 'power4.out',
+        },
+        '-=0.65'
+      )
+      .from(
+        '.hero-description',
         {
           y: 20,
           opacity: 0,
           duration: 0.7,
         },
-        '-=0.4'
+        '-=0.45'
       )
-      // CTAs
       .from(
-        '.hero-cta',
+        '.hero-action-btn',
         {
           y: 16,
           opacity: 0,
-          duration: 0.6,
+          duration: 0.55,
           stagger: 0.1,
         },
-        '-=0.3'
+        '-=0.4'
       )
-      // Key metrics pills
       .from(
-        '.hero-metric',
+        '.hero-trust-bar',
         {
           opacity: 0,
           y: 12,
-          duration: 0.5,
-          stagger: 0.08,
+          duration: 0.6,
         },
         '-=0.3'
-      )
-      // Hero Image reveal with subtle scale
-      .from(
-        imageWrapperRef.current,
-        {
-          scale: 0.94,
-          opacity: 0,
-          duration: 1.1,
-          ease: 'power2.out',
-        },
-        '-=1.0'
       );
-
-      // Restrained Parallax on image on scroll
-      if (imageWrapperRef.current) {
-        gsap.to(imageWrapperRef.current, {
-          yPercent: 12,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 1,
-          },
-        });
-      }
     },
     { scope: containerRef }
   );
@@ -99,130 +74,105 @@ export const Hero: React.FC<HeroProps> = ({ onExploreEngines, onRequestQuote }) 
     <section
       id="hero"
       ref={containerRef}
-      className="relative min-h-[92vh] lg:min-h-screen flex flex-col justify-between pt-28 pb-12 sm:pt-32 sm:pb-16 bg-[#ffffff] border-b border-zinc-200 overflow-hidden"
+      className="relative min-h-[92vh] lg:min-h-screen flex items-center pt-24 sm:pt-28 pb-12 overflow-hidden bg-[#f3f4f6]"
     >
-      {/* Background subtle technical grid lines */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.035]">
-        <div
-          className="w-full h-full"
-          style={{
-            backgroundImage:
-              'linear-gradient(#121316 1px, transparent 1px), linear-gradient(90deg, #121316 1px, transparent 1px)',
-            backgroundSize: '48px 48px',
-          }}
+      {/* Background Image: The Dubai Showroom with Skyline & Complete Engine on the right */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src={heroDubaiEngineImg}
+          alt="Modern automotive showroom in Dubai with skyline and complete performance car engine assembly"
+          className="w-full h-full object-cover object-center lg:object-[center_right] filter contrast-[1.02]"
+          loading="eager"
         />
+
+        {/* Soft gradient mask on the left for maximum text readability across all displays */}
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/80 to-transparent lg:w-[62%] pointer-events-none" />
+        <div className="absolute inset-0 bg-white/40 lg:hidden pointer-events-none" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full my-auto z-10 py-6 sm:py-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-          {/* Left Column: Typography & CTAs */}
-          <div className="lg:col-span-7 xl:col-span-6 z-20">
-            {/* Eyebrow */}
-            <div className="hero-eyebrow inline-flex items-center gap-2 px-3 py-1 bg-zinc-100/90 border border-zinc-300/80 rounded-xs text-[11px] font-mono uppercase tracking-widest text-[#144b37] font-semibold mb-6">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#144b37] animate-pulse" />
-              <span>UAE-BASED ENGINE SUPPLIER · WORLDWIDE REACH</span>
+      {/* Far Right Wall Watermark (As seen in the image) */}
+      <div className="hidden xl:flex flex-col items-end absolute top-32 right-12 z-10 pointer-events-none select-none text-right">
+        <span className="text-[11px] font-mono tracking-[0.25em] text-zinc-500 font-semibold block leading-tight">
+          PREMIUM
+        </span>
+        <span className="text-[11px] font-mono tracking-[0.25em] text-zinc-500 font-semibold block leading-tight">
+          ENGINES
+        </span>
+        <span className="text-[11px] font-mono tracking-[0.25em] text-zinc-500 font-semibold block leading-tight">
+          GLOBAL REACH
+        </span>
+        <span className="w-10 h-[2px] bg-[#a31414] mt-2 block" />
+      </div>
+
+      {/* Main Foreground Container */}
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 w-full relative z-10">
+        <div className="max-w-2xl lg:max-w-xl">
+          {/* Eyebrow: Red Pin + Dubai Location */}
+          <div className="hero-loc inline-flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-zinc-700 font-semibold mb-4 sm:mb-6">
+            <MapPin className="w-4 h-4 text-[#a31414] fill-[#a31414]" />
+            <span>DUBAI, UAE · AUTOMOTIVE ENGINE SUPPLY</span>
+          </div>
+
+          {/* Main Headline (Masked lines) */}
+          <div className="mb-5 sm:mb-6">
+            <div className="overflow-hidden">
+              <h1 className="hero-title-line-1 text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-extrabold text-[#0f172a] tracking-tight leading-[1.05]">
+                Reliable Engines.
+              </h1>
             </div>
-
-            {/* Headline (Line-by-line masked) */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#111215] tracking-tight leading-[1.08] mb-6">
-              <div className="overflow-hidden">
-                <div className="hero-line">The Right Engine.</div>
-              </div>
-              <div className="overflow-hidden">
-                <div className="hero-line text-[#144b37]">A Better Way Forward.</div>
-              </div>
-            </h1>
-
-            {/* Supporting Text */}
-            <p className="hero-support text-base sm:text-lg text-zinc-600 max-w-xl font-normal leading-relaxed mb-9">
-              Your dedicated source for automotive engines. Find the right engine for your vehicle with professional sourcing support from the UAE to destinations worldwide.
-            </p>
-
-            {/* Actions */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10">
-              <button
-                onClick={onExploreEngines}
-                className="hero-cta inline-flex items-center justify-center gap-2 px-7 py-3.5 text-xs font-semibold uppercase tracking-wider text-white bg-[#144b37] hover:bg-[#0f3829] active:scale-[0.98] transition-all rounded-xs cursor-pointer shadow-sm group"
-              >
-                <span>Explore Our Engines</span>
-                <ArrowDown className="w-4 h-4 transition-transform group-hover:translate-y-0.5" />
-              </button>
-
-              <button
-                onClick={onRequestQuote}
-                className="hero-cta inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold uppercase tracking-wider text-[#121316] bg-zinc-100 hover:bg-zinc-200/80 active:scale-[0.98] border border-zinc-300/80 transition-all rounded-xs cursor-pointer group"
-              >
-                <span>Request a Quote</span>
-                <ArrowUpRight className="w-4 h-4 text-zinc-600 group-hover:text-black group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </button>
-            </div>
-
-            {/* Trust highlights */}
-            <div className="pt-6 border-t border-zinc-200/80 grid grid-cols-2 sm:grid-cols-3 gap-4 text-xs font-mono text-zinc-600">
-              <div className="hero-metric flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-[#144b37]" />
-                <span>Zero general parts</span>
-              </div>
-              <div className="hero-metric flex items-center gap-2">
-                <Shield className="w-3.5 h-3.5 text-[#144b37]" />
-                <span>Verified OEM codes</span>
-              </div>
-              <div className="hero-metric col-span-2 sm:col-span-1 flex items-center gap-2">
-                <Disc className="w-3.5 h-3.5 text-[#144b37]" />
-                <span>Export crated</span>
-              </div>
+            <div className="overflow-hidden">
+              <h1 className="hero-title-line-2 text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-extrabold text-[#a31414] tracking-tight leading-[1.05]">
+                Worldwide Supply.
+              </h1>
             </div>
           </div>
 
-          {/* Right Column: Hero Engine Photography */}
-          <div className="lg:col-span-5 xl:col-span-6 relative">
-            <div
-              ref={imageWrapperRef}
-              className="relative mx-auto max-w-lg lg:max-w-none rounded-sm border border-zinc-200/90 bg-gradient-to-b from-zinc-50 to-zinc-100/60 p-2 sm:p-3 shadow-md"
+          {/* Supporting paragraph text */}
+          <p className="hero-description text-sm sm:text-base md:text-lg text-zinc-600 font-normal leading-relaxed mb-8 max-w-xl">
+            Premium replacement engines and automotive powertrain solutions for workshops, dealerships, distributors, and vehicle owners in Dubai and across international markets.
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 mb-10 sm:mb-12">
+            <button
+              onClick={onExploreEngines}
+              className="hero-action-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs sm:text-sm font-semibold text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.98] transition-all rounded-md shadow-sm cursor-pointer"
             >
-              <div className="relative overflow-hidden aspect-[4/3] sm:aspect-[16/11] bg-zinc-900 rounded-xs">
-                <img
-                  src="https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1600&q=85"
-                  alt="Complete automotive performance twin-turbo engine assembly showing cast aluminium block, intake plenum and turbochargers"
-                  className="w-full h-full object-cover object-center filter contrast-[1.04] brightness-95 transition-transform duration-700 hover:scale-105"
-                  loading="eager"
-                />
+              <span>Explore Our Engines</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
 
-                {/* Technical overlay badge */}
-                <div className="absolute top-3 left-3 bg-[#111215]/85 backdrop-blur-md px-3 py-1.5 rounded-xs border border-zinc-700/60 text-white text-[11px] font-mono flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400" />
-                  <span>COMPLETE ENGINE ASSEMBLY</span>
-                </div>
+            <button
+              onClick={onRequestQuote}
+              className="hero-action-btn inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs sm:text-sm font-semibold text-zinc-800 bg-[#f3f4f6]/95 hover:bg-white active:scale-[0.98] border border-zinc-300 transition-all rounded-md shadow-2xs cursor-pointer"
+            >
+              <span>Request a Quote</span>
+              <ArrowRight className="w-4 h-4 text-zinc-600" />
+            </button>
+          </div>
 
-                <div className="absolute bottom-3 right-3 bg-[#111215]/85 backdrop-blur-md px-3 py-1.5 rounded-xs border border-zinc-700/60 text-zinc-300 text-[10px] font-mono">
-                  <span>DISPLACEMENT & CODE VERIFIED</span>
-                </div>
-              </div>
+          {/* Bottom Feature Strip: Exact match with icons & dividers */}
+          <div className="hero-trust-bar pt-5 border-t border-zinc-300/80 flex flex-wrap items-center gap-4 sm:gap-6 text-xs text-zinc-700 font-medium">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-zinc-600" />
+              <span>Quality-Sourced Engines</span>
+            </div>
 
-              {/* Bottom spec caption */}
-              <div className="flex items-center justify-between mt-2.5 px-2 text-[11px] font-mono text-zinc-500">
-                <span>UAE SUPPLY HUB // GLOBAL FREIGHT</span>
-                <span className="text-zinc-600">INSPECTED CYLINDER COMPRESSION</span>
-              </div>
+            <span className="text-zinc-300 hidden sm:inline">|</span>
+
+            <div className="flex items-center gap-2">
+              <Globe className="w-4 h-4 text-zinc-600" />
+              <span>Worldwide Shipping</span>
+            </div>
+
+            <span className="text-zinc-300 hidden sm:inline">|</span>
+
+            <div className="flex items-center gap-2">
+              <Headphones className="w-4 h-4 text-zinc-600" />
+              <span>Professional Support</span>
             </div>
           </div>
         </div>
-      </div>
-
-      {/* Elegant Bottom Scroll Indicator */}
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs font-mono text-zinc-600 pt-4 border-t border-zinc-100">
-        <div className="flex items-center gap-2">
-          <span className="w-1.5 h-1.5 bg-[#144b37] rounded-full" />
-          <span>AL-SABAH MOTORS // UAE COMMERCIAL REGISTRY</span>
-        </div>
-
-        <button
-          onClick={() => scrollTo('#trust-strip', { offset: -80, duration: 1.0 })}
-          className="flex items-center gap-2 text-zinc-600 hover:text-[#121316] transition-colors cursor-pointer group"
-        >
-          <span>SCROLL TO EXPLORE</span>
-          <ArrowDown className="w-3.5 h-3.5 animate-bounce group-hover:text-[#144b37]" />
-        </button>
       </div>
     </section>
   );

@@ -10,8 +10,8 @@
 
   body {
     font-family: var(--font-body);
-    background-color: #fafaf9;
-    color: #121316;
+    background-color: #ffffff;
+    color: #0f172a;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
@@ -19,7 +19,7 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
-    letter-spacing: -0.02em;
+    letter-spacing: -0.025em;
   }
 }
 
@@ -43,32 +43,23 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Custom scrollbar */
+/* Custom scrollbar matching Auto Engines theme */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f1ef;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #c7c9cf;
-  border-radius: 2px;
+  background: #cbd5e1;
+  border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #144b37;
+  background: #a31414;
 }
 
 /* Text Selection */
 ::selection {
-  background: #144b37;
+  background: #a31414;
   color: #ffffff;
-}
-
-/* Hide horizontal scrollbar */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
 }

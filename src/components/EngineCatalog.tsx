@@ -2,13 +2,14 @@ import React, { useState, useRef, useMemo } from 'react';
 import { 
   Search, 
   Filter, 
-  ArrowUpRight, 
-  Sparkles, 
+  ArrowRight, 
   Info, 
   Gauge, 
   CheckCircle2, 
+  RotateCcw,
+  SlidersHorizontal,
   ChevronRight,
-  RotateCcw
+  Sparkles
 } from 'lucide-react';
 import { 
   ENGINE_CATALOG, 
@@ -37,6 +38,9 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
   const [selectedFuel, setSelectedFuel] = useState('All Fuel Types');
   const [searchQuery, setSearchQuery] = useState('');
 
+  // Quick brand chips
+  const popularBrands = ['All', 'BMW', 'Mercedes-Benz', 'Toyota', 'Porsche', 'Audi', 'Land Rover'];
+
   // Filter logic
   const filteredEngines = useMemo(() => {
     return ENGINE_CATALOG.filter((engine) => {
@@ -64,29 +68,15 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
 
   useGSAP(
     () => {
-      // Reveal heading with masked text
-      gsap.from('.catalog-header-text', {
-        y: 30,
+      gsap.from('.catalog-header-anim', {
+        y: 20,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.12,
+        duration: 0.7,
+        stagger: 0.1,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 80%',
-        },
-      });
-
-      // Animate cards on initial mount
-      gsap.from('.catalog-card', {
-        y: 28,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.08,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: 'top 85%',
         },
       });
     },
@@ -108,64 +98,64 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
 
   return (
     <section
-      id="engine-range"
+      id="engine-catalog"
       ref={containerRef}
-      className="py-20 lg:py-28 bg-[#fafaf9] border-b border-zinc-200/90 relative"
+      className="py-20 lg:py-28 bg-[#f8fafc] border-b border-zinc-200"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         {/* Section Heading */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
-          <div className="max-w-2xl">
-            <div className="catalog-header-text inline-flex items-center gap-2 px-3 py-1 rounded-xs bg-zinc-200/80 border border-zinc-300/80 text-[11px] font-mono uppercase tracking-widest text-zinc-700 font-semibold mb-4">
-              <span>EXCLUSIVELY CAR ENGINES</span>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+          <div>
+            <div className="catalog-header-anim inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-[#a31414] font-semibold mb-3">
+              <span className="w-2 h-2 rounded-full bg-[#a31414]" />
+              <span>CAR ENGINE INVENTORY ARCHIVE</span>
             </div>
-            <h2 className="catalog-header-text text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#111215] tracking-tight leading-tight mb-4">
+            <h2 className="catalog-header-anim text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0f172a] tracking-tight">
               Engines That Keep You Moving.
             </h2>
-            <p className="catalog-header-text text-base text-zinc-600 leading-relaxed font-normal">
-              Explore our available engine inventory or contact our team to source an engine that matches your vehicle requirements.
+            <p className="catalog-header-anim text-sm sm:text-base text-zinc-600 mt-3 max-w-2xl font-normal leading-relaxed">
+              Browse our inventory of complete replacement engines or filter by manufacturer, fuel type, and condition to find the right assembly for your vehicle.
             </p>
           </div>
 
-          <div className="catalog-header-text flex flex-col sm:flex-row items-start sm:items-center gap-3">
-            <div className="text-xs font-mono text-zinc-500 bg-white border border-zinc-200 px-3.5 py-2 rounded-xs shadow-2xs">
-              SHOWING <span className="font-semibold text-zinc-900">{filteredEngines.length}</span> OF {ENGINE_CATALOG.length} ENGINES
+          <div className="catalog-header-anim flex items-center gap-3">
+            <div className="text-xs font-mono text-zinc-500 bg-white border border-zinc-200 px-4 py-2.5 rounded-md shadow-2xs font-medium">
+              SHOWING <span className="font-bold text-[#a31414]">{filteredEngines.length}</span> OF {ENGINE_CATALOG.length} ENGINES
             </div>
           </div>
         </div>
 
-        {/* Sample Inventory Notice Banner */}
-        <div className="mb-8 p-4 rounded-xs bg-emerald-950/5 border border-emerald-800/20 flex items-start gap-3 text-xs text-[#144b37]">
-          <Info className="w-4 h-4 mt-0.5 shrink-0 text-[#144b37]" />
+        {/* Informative Sample Notice */}
+        <div className="mb-8 p-4 rounded-md bg-white border border-zinc-200/90 shadow-2xs flex items-start gap-3 text-xs text-zinc-600">
+          <Info className="w-4 h-4 text-[#a31414] shrink-0 mt-0.5" />
           <div className="leading-relaxed">
-            <span className="font-semibold font-mono uppercase tracking-wider text-[11px] block sm:inline mr-2">
-              Catalogue Data Notice:
-            </span>
+            <strong className="text-zinc-900 font-semibold mr-1">Catalogue Note:</strong>
             {SAMPLE_CATALOG_NOTICE}
           </div>
         </div>
 
-        {/* Filter & Search Bar */}
-        <div className="bg-white p-4 sm:p-5 rounded-xs border border-zinc-200 shadow-2xs mb-10 space-y-4">
+        {/* Filter & Search Control Panel */}
+        <div className="bg-white p-5 sm:p-6 rounded-lg border border-zinc-200 shadow-xs mb-10 space-y-4">
+          {/* Main search and select dropdowns */}
           <div className="grid grid-cols-1 md:grid-cols-12 gap-3.5">
             {/* Search Input */}
             <div className="md:col-span-5 relative">
               <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
               <input
                 type="text"
-                placeholder="Search engine code, vehicle model (e.g. B58, 2JZ, RS3, AMG)..."
+                placeholder="Search engine code, vehicle model (e.g. B58, 2JZ, AMG, RS3)..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xs text-xs font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-[#144b37] focus:bg-white transition-all"
+                className="w-full pl-10 pr-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-md text-xs font-medium text-zinc-900 placeholder-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all"
               />
             </div>
 
-            {/* Manufacturer Selector */}
+            {/* Manufacturer Dropdown */}
             <div className="md:col-span-3">
               <select
                 value={selectedManufacturer}
                 onChange={(e) => setSelectedManufacturer(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xs text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#144b37] focus:bg-white transition-all cursor-pointer"
+                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-md text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all cursor-pointer"
               >
                 {MANUFACTURER_OPTIONS.map((m) => (
                   <option key={m} value={m}>
@@ -175,12 +165,12 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
               </select>
             </div>
 
-            {/* Condition Selector */}
+            {/* Condition Dropdown */}
             <div className="md:col-span-2">
               <select
                 value={selectedCondition}
                 onChange={(e) => setSelectedCondition(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xs text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#144b37] focus:bg-white transition-all cursor-pointer"
+                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-md text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all cursor-pointer"
               >
                 {CONDITION_OPTIONS.map((c) => (
                   <option key={c} value={c}>
@@ -190,12 +180,12 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
               </select>
             </div>
 
-            {/* Fuel Type Selector */}
+            {/* Fuel Type Dropdown */}
             <div className="md:col-span-2">
               <select
                 value={selectedFuel}
                 onChange={(e) => setSelectedFuel(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-xs text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#144b37] focus:bg-white transition-all cursor-pointer"
+                className="w-full px-3.5 py-2.5 bg-zinc-50 border border-zinc-200 rounded-md text-xs font-medium text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all cursor-pointer"
               >
                 {FUEL_OPTIONS.map((f) => (
                   <option key={f} value={f}>
@@ -206,59 +196,77 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
             </div>
           </div>
 
-          {/* Active filter pills & Reset */}
-          {hasActiveFilters && (
-            <div className="flex items-center justify-between pt-2 border-t border-zinc-100 text-xs">
-              <div className="flex items-center gap-2 text-zinc-500 font-mono text-[11px]">
-                <span>Active Filters:</span>
-                {selectedManufacturer !== 'All Manufacturers' && (
-                  <span className="px-2 py-0.5 bg-zinc-100 rounded-xs text-zinc-800">{selectedManufacturer}</span>
-                )}
-                {selectedCondition !== 'All Conditions' && (
-                  <span className="px-2 py-0.5 bg-zinc-100 rounded-xs text-zinc-800">{selectedCondition}</span>
-                )}
-                {selectedFuel !== 'All Fuel Types' && (
-                  <span className="px-2 py-0.5 bg-zinc-100 rounded-xs text-zinc-800">{selectedFuel}</span>
-                )}
-                {searchQuery && (
-                  <span className="px-2 py-0.5 bg-zinc-100 rounded-xs text-zinc-800">&quot;{searchQuery}&quot;</span>
-                )}
-              </div>
+          {/* Quick Brand Filter Pills */}
+          <div className="pt-2 border-t border-zinc-100 flex items-center justify-between flex-wrap gap-2 text-xs">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <span className="text-zinc-500 font-mono text-[11px] mr-1">Filter Brand:</span>
+              {popularBrands.map((brand) => {
+                const isSelected =
+                  brand === 'All'
+                    ? selectedManufacturer === 'All Manufacturers'
+                    : selectedManufacturer.toLowerCase().includes(brand.toLowerCase());
+                return (
+                  <button
+                    key={brand}
+                    onClick={() => {
+                      if (brand === 'All') setSelectedManufacturer('All Manufacturers');
+                      else {
+                        const found = MANUFACTURER_OPTIONS.find((m) =>
+                          m.toLowerCase().includes(brand.toLowerCase())
+                        );
+                        setSelectedManufacturer(found || brand);
+                      }
+                    }}
+                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#a31414] text-white shadow-2xs font-semibold'
+                        : 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200'
+                    }`}
+                  >
+                    {brand}
+                  </button>
+                );
+              })}
+            </div>
 
+            {/* Reset Button */}
+            {hasActiveFilters && (
               <button
                 onClick={resetFilters}
-                className="flex items-center gap-1.5 text-xs text-zinc-600 hover:text-black font-medium cursor-pointer"
+                className="inline-flex items-center gap-1.5 text-xs text-[#a31414] hover:text-[#881010] font-semibold cursor-pointer"
               >
                 <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset Filters</span>
+                <span>Reset All Filters</span>
               </button>
-            </div>
-          )}
+            )}
+          </div>
         </div>
 
-        {/* Engine Grid - Editorial layout with varied proportions */}
+        {/* Engine Cards Grid */}
         {filteredEngines.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-xs border border-zinc-200 p-8">
-            <Gauge className="w-10 h-10 text-zinc-300 mx-auto mb-4" />
-            <h3 className="text-lg font-heading font-bold text-zinc-900 mb-2">No matching engines in current preview</h3>
-            <p className="text-xs text-zinc-500 max-w-md mx-auto mb-6">
-              We specialize in custom engine sourcing. If your required engine code is not shown, submit an enquiry with your vehicle details.
+          <div className="text-center py-20 bg-white rounded-lg border border-zinc-200 p-8 shadow-xs">
+            <Gauge className="w-12 h-12 text-zinc-300 mx-auto mb-4" />
+            <h3 className="text-lg font-heading font-bold text-zinc-900 mb-2">
+              No engines match your current filter selection
+            </h3>
+            <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto mb-6">
+              We specialize in custom engine sourcing. If your specific vehicle engine code is not in this view, contact our UAE desk to source it directly.
             </p>
             <button
               onClick={resetFilters}
-              className="px-5 py-2.5 text-xs font-semibold uppercase tracking-wider text-white bg-[#144b37] hover:bg-[#0f3829] rounded-xs cursor-pointer"
+              className="px-6 py-2.5 text-xs font-semibold text-white bg-[#a31414] hover:bg-[#881010] rounded-md transition-colors cursor-pointer"
             >
-              Clear Filters
+              Clear All Filters
             </button>
           </div>
         ) : (
-          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
             {filteredEngines.map((engine) => (
               <div
                 key={engine.id}
-                className="catalog-card flex flex-col justify-between bg-white border border-zinc-200/90 rounded-xs overflow-hidden shadow-2xs hover:shadow-md hover:border-zinc-300 transition-all duration-300 group"
+                className="flex flex-col justify-between bg-white border border-zinc-200/90 rounded-lg overflow-hidden shadow-xs hover:shadow-md hover:border-zinc-300 transition-all duration-300 group"
               >
-                {/* Top Image Container */}
+                {/* Image Container */}
                 <div>
                   <div className="relative aspect-[16/10] overflow-hidden bg-zinc-950">
                     <img
@@ -269,17 +277,17 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
                     />
 
                     {/* Condition Badge */}
-                    <div className="absolute top-3 left-3 bg-[#111215]/85 backdrop-blur-md px-2.5 py-1 rounded-xs border border-zinc-700/60 text-white text-[10px] font-mono">
+                    <div className="absolute top-3 left-3 bg-[#0f172a]/85 backdrop-blur-md px-2.5 py-1 rounded-sm text-white text-[10px] font-mono">
                       {engine.condition}
                     </div>
 
-                    {/* Code Badge */}
-                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-xs border border-zinc-200 text-[#121316] text-[10px] font-mono font-bold tracking-wider">
+                    {/* OEM Code Badge */}
+                    <div className="absolute top-3 right-3 bg-white/95 px-2.5 py-1 rounded-sm text-[#a31414] text-[10px] font-mono font-bold tracking-wider shadow-xs">
                       {engine.engineCode.split(' ')[0]}
                     </div>
 
                     {/* Displacement overlay */}
-                    <div className="absolute bottom-3 left-3 bg-[#144b37]/90 text-white text-[10px] font-mono px-2 py-0.5 rounded-xs">
+                    <div className="absolute bottom-3 left-3 bg-[#a31414]/90 text-white text-[10px] font-mono px-2 py-0.5 rounded-sm">
                       {engine.displacement}
                     </div>
                   </div>
@@ -291,7 +299,7 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
                       <span>{engine.modelYears}</span>
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-heading font-bold text-[#111215] mb-2 leading-snug group-hover:text-[#144b37] transition-colors">
+                    <h3 className="text-base sm:text-lg font-heading font-bold text-[#0f172a] mb-2 leading-snug group-hover:text-[#a31414] transition-colors">
                       {engine.name}
                     </h3>
 
@@ -313,18 +321,22 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
                       </div>
                       <div className="flex justify-between">
                         <span className="text-zinc-400">Aspiration:</span>
-                        <span className="text-zinc-800 font-medium truncate max-w-[65%]">{engine.aspiration}</span>
+                        <span className="text-zinc-800 font-medium truncate max-w-[65%]">
+                          {engine.aspiration}
+                        </span>
                       </div>
                     </div>
 
                     {/* Pricing Guide */}
                     <div className="pt-3 flex items-center justify-between">
                       <div>
-                        <span className="text-[10px] font-mono uppercase text-zinc-400 block">Pricing Guide:</span>
+                        <span className="text-[10px] font-mono uppercase text-zinc-400 block">
+                          Price Guide:
+                        </span>
                         <span className="text-xs font-semibold text-zinc-900">{engine.guidePrice}</span>
                       </div>
-                      <span className="text-[10px] font-mono text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-xs">
-                        UAE Export Ready
+                      <span className="text-[10px] font-mono text-red-700 bg-red-50 px-2 py-0.5 rounded-sm">
+                        Dubai Export Ready
                       </span>
                     </div>
                   </div>
@@ -334,7 +346,7 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
                 <div className="px-5 pb-5 sm:px-6 sm:pb-6 pt-0 grid grid-cols-2 gap-2">
                   <button
                     onClick={() => onViewDetails(engine)}
-                    className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-medium text-zinc-700 bg-zinc-100 hover:bg-zinc-200/80 rounded-xs transition-colors cursor-pointer"
+                    className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-medium text-zinc-700 bg-zinc-100 hover:bg-zinc-200 rounded-md transition-colors cursor-pointer"
                   >
                     <span>View Specs</span>
                     <ChevronRight className="w-3.5 h-3.5 text-zinc-400" />
@@ -342,10 +354,10 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
 
                   <button
                     onClick={() => onSelectEngineForEnquiry(engine)}
-                    className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold text-white bg-[#144b37] hover:bg-[#0f3829] rounded-xs transition-colors cursor-pointer group/btn"
+                    className="flex items-center justify-center gap-1.5 py-2.5 px-3 text-xs font-semibold text-white bg-[#a31414] hover:bg-[#881010] rounded-md transition-colors cursor-pointer group/btn"
                   >
-                    <span>Enquire</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                    <span>Request Quote</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                   </button>
                 </div>
               </div>
@@ -353,27 +365,27 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
           </div>
         )}
 
-        {/* Custom Sourcing Callout inside catalog */}
-        <div className="mt-14 p-6 sm:p-8 rounded-xs bg-[#111215] text-white flex flex-col md:flex-row items-center justify-between gap-6">
+        {/* Custom Sourcing Callout banner */}
+        <div className="mt-14 p-6 sm:p-8 rounded-lg bg-[#0f172a] text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
           <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-emerald-400 text-xs font-mono font-medium mb-2">
+            <div className="inline-flex items-center gap-2 text-red-400 text-xs font-mono font-medium mb-2">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>CUSTOM VEHICLE SOURCING SERVICE</span>
+              <span>CUSTOM VEHICLE SOURCING DESK</span>
             </div>
             <h3 className="text-xl sm:text-2xl font-heading font-bold text-white mb-2">
-              Need an engine code not displayed in this catalogue?
+              Looking for an engine code not displayed in this catalogue?
             </h3>
-            <p className="text-xs sm:text-sm text-zinc-400 leading-relaxed">
-              Our UAE sourcing desk has direct access to verified automotive engine stockyards across Sharjah, Dubai Auto Zone, and Japanese/European import manifests.
+            <p className="text-xs sm:text-sm text-zinc-300 leading-relaxed font-normal">
+              Our Dubai sourcing desk accesses verified car engine inventories across Sharjah, Dubai Auto Zone (DAZ), and international import manifests.
             </p>
           </div>
 
           <button
             onClick={() => {
-              const element = document.getElementById('engine-sourcing');
+              const element = document.getElementById('contact');
               if (element) element.scrollIntoView({ behavior: 'smooth' });
             }}
-            className="shrink-0 px-6 py-3 bg-white text-[#111215] hover:bg-zinc-100 font-semibold text-xs uppercase tracking-wider rounded-xs transition-colors cursor-pointer"
+            className="shrink-0 px-6 py-3 bg-[#a31414] hover:bg-[#881010] text-white font-semibold text-xs uppercase tracking-wider rounded-md transition-colors cursor-pointer"
           >
             Start Sourcing Enquiry
           </button>
