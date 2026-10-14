@@ -1,0 +1,6 @@
+{
+  "name": "Animation Stack Ready",
+  "description": "Production-grade animation stack configured with GSAP, ScrollTrigger, @gsap/react, Lenis smooth scrolling, and Lucide icons.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
