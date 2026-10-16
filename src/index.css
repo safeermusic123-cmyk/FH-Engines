@@ -4,8 +4,8 @@
 @layer base {
   :root {
     --font-heading: 'Manrope', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    --font-mono: 'JetBrains Mono', monospace;
+    --font-body: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'Manrope', monospace;
   }
 
   body {
@@ -43,7 +43,7 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Custom scrollbar matching Auto Engines theme */
+/* Custom scrollbar matching FH Engine theme */
 ::-webkit-scrollbar {
   width: 6px;
 }

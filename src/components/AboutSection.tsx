@@ -1,6 +1,7 @@
 import React, { useRef } from 'react';
-import { ShieldCheck, Check, Building2, MapPin } from 'lucide-react';
+import { ShieldCheck, Check, Building2, MapPin, Phone, Award } from 'lucide-react';
 import { gsap, useGSAP } from '../lib/gsap';
+import testedEngineImg from '../assets/images/clean_v8_workshop_1792147853609.jpg';
 
 export const AboutSection: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,95 +32,108 @@ export const AboutSection: React.FC = () => {
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Industrial Inspection Photography */}
+          {/* Left Column: Pure Engine Inspection Photography */}
           <div className="lg:col-span-5 relative">
             <div
               ref={imageRef}
-              className="relative rounded-lg border border-zinc-200 bg-zinc-950 p-2.5 sm:p-3 shadow-md"
+              className="relative rounded-2xl border border-zinc-200 bg-white p-3 shadow-md"
             >
-              <div className="aspect-[4/5] overflow-hidden rounded-md bg-zinc-900">
+              <div className="aspect-[4/3] sm:aspect-[1/1] overflow-hidden rounded-xl bg-zinc-900">
                 <img
-                  src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=85"
-                  alt="Quality assurance inspection of automotive engine components in modern UAE industrial facility"
-                  className="w-full h-full object-cover object-center filter contrast-[1.04]"
+                  src={testedEngineImg}
+                  alt="Inspected high-performance automotive engine assembly on test bench in Sharjah facility"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-center filter contrast-[1.03]"
                   loading="lazy"
                 />
               </div>
 
-              {/* Technical Label Overlay */}
-              <div className="mt-3 px-1 flex items-center justify-between text-xs font-mono text-zinc-400">
-                <span>FACILITY: DUBAI AUTO ZONE (DAZ) & SHARJAH</span>
-                <span className="text-[#a31414] font-semibold">INSPECTION DESK</span>
+              {/* Clean Bottom Caption */}
+              <div className="mt-3 px-2 py-1 flex items-center justify-between text-xs font-semibold text-zinc-600">
+                <span className="flex items-center gap-1.5">
+                  <MapPin className="w-3.5 h-3.5 text-[#a31414]" />
+                  <span>Sharjah Industrial Engine Facility</span>
+                </span>
+                <span className="text-[#a31414] font-bold">100% Tested Assemblies</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Editorial Copy */}
+          {/* Right Column: Editorial Copy in Manrope */}
           <div className="lg:col-span-7">
-            <div className="about-reveal inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-[#a31414] font-semibold mb-3">
+            <div className="about-reveal inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#a31414] font-bold mb-3">
               <span className="w-2 h-2 rounded-full bg-[#a31414]" />
-              <span>SPECIALIZED ENGINE TRADING</span>
+              <span>ABOUT FH ENGINE · SHARJAH, UAE</span>
             </div>
 
-            <h2 className="about-reveal text-3xl sm:text-4xl md:text-5xl font-extrabold text-[#0f172a] tracking-tight leading-tight mb-6">
-              Focused on Engines. Built Around Your Requirements.
+            <h2 className="about-reveal text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#0f172a] tracking-tight leading-tight mb-6">
+              Focused on Engines. Built Around Precision Supply.
             </h2>
 
             <div className="about-reveal space-y-4 text-base text-zinc-600 leading-relaxed font-normal mb-8">
               <p>
-                We specialize in automotive engine supply, helping customers identify their requirements and enquire about suitable engine options through a straightforward, professional process.
+                <strong className="text-zinc-900 font-semibold">FH Engine</strong> is a dedicated automotive engine specialist based in Sharjah, United Arab Emirates. We assist workshops, professional garages, vehicle dealerships, and individual automotive builders across the UAE and worldwide in securing genuine, compression-tested replacement engines.
               </p>
               <p>
-                The business is based in Dubai, United Arab Emirates and serves customers who require a dedicated source for automotive engines. By maintaining an uncompromising focus exclusively on complete engine assemblies, we eliminate the complexity and guesswork common to general automotive salvage operations.
+                By maintaining an uncompromising focus exclusively on complete automotive engines—rather than generic automotive salvage—we verify engine codes, assess cylinder head integrity, inspect timing components, and package each unit for secure transport.
               </p>
             </div>
 
-            {/* Business Information Matrix */}
-            <div className="about-reveal bg-[#f8fafc] border border-zinc-200 rounded-lg p-6 mb-8">
-              <div className="text-[11px] font-mono uppercase tracking-widest text-zinc-400 font-semibold mb-4">
-                // COMPANY PROFILE & REGISTERED DETAILS
+            {/* Profile Grid Cards */}
+            <div className="about-reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+              <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
+                <span className="text-zinc-500 block text-xs uppercase font-bold tracking-wider mb-1">
+                  Company Name
+                </span>
+                <span className="font-heading font-extrabold text-zinc-900 text-base">
+                  FH Engine
+                </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono">
-                <div className="p-3 bg-white border border-zinc-200 rounded-md">
-                  <span className="text-zinc-400 block text-[10px] uppercase">Corporate Entity:</span>
-                  <span className="font-semibold text-zinc-900 block mt-0.5">
-                    AUTO ENGINES TRADING FZE
-                  </span>
-                </div>
+              <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
+                <span className="text-zinc-500 block text-xs uppercase font-bold tracking-wider mb-1">
+                  Operating Location
+                </span>
+                <span className="font-heading font-extrabold text-zinc-900 text-base">
+                  Sharjah, United Arab Emirates
+                </span>
+              </div>
 
-                <div className="p-3 bg-white border border-zinc-200 rounded-md">
-                  <span className="text-zinc-400 block text-[10px] uppercase">Registered Location:</span>
-                  <span className="font-semibold text-zinc-900 block mt-0.5">
-                    Dubai Auto Zone (DAZ) & Sharjah, UAE
-                  </span>
-                </div>
+              <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
+                <span className="text-zinc-500 block text-xs uppercase font-bold tracking-wider mb-1">
+                  Direct Contact Desk
+                </span>
+                <a
+                  href="tel:+971585188315"
+                  className="font-heading font-extrabold text-[#a31414] text-base hover:underline block"
+                >
+                  +971 58 518 8315
+                </a>
+              </div>
 
-                <div className="p-3 bg-white border border-zinc-200 rounded-md">
-                  <span className="text-zinc-400 block text-[10px] uppercase">Commercial Activity:</span>
-                  <span className="font-semibold text-zinc-900 block mt-0.5">
-                    Car Engine Supply & Export Trading
-                  </span>
-                </div>
-
-                <div className="p-3 bg-white border border-zinc-200 rounded-md">
-                  <span className="text-zinc-400 block text-[10px] uppercase">Service Scope:</span>
-                  <span className="font-semibold text-zinc-900 block mt-0.5">
-                    Garages, Dealerships, Mechanics & Private Builds
-                  </span>
-                </div>
+              <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl">
+                <span className="text-zinc-500 block text-xs uppercase font-bold tracking-wider mb-1">
+                  Export Capability
+                </span>
+                <span className="font-heading font-extrabold text-zinc-900 text-base">
+                  Air & Ocean Crated Freight
+                </span>
               </div>
             </div>
 
-            {/* Core Values */}
-            <div className="about-reveal grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-zinc-700">
-              <div className="flex items-start gap-2.5">
-                <Check className="w-4 h-4 text-[#a31414] shrink-0 mt-0.5" />
-                <span>Zero general spare parts — strictly complete engine assemblies</span>
+            {/* Core Pillars */}
+            <div className="about-reveal flex flex-wrap gap-3">
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 bg-zinc-100 rounded-lg text-xs font-bold text-zinc-800">
+                <Check className="w-4 h-4 text-[#a31414]" />
+                <span>Physical Engine Code Matching</span>
               </div>
-              <div className="flex items-start gap-2.5">
-                <Check className="w-4 h-4 text-[#a31414] shrink-0 mt-0.5" />
-                <span>Strict verification of OEM codes prior to payment and dispatch</span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 bg-zinc-100 rounded-lg text-xs font-bold text-zinc-800">
+                <Check className="w-4 h-4 text-[#a31414]" />
+                <span>Compression & Leak-Down Tested</span>
+              </div>
+              <div className="inline-flex items-center gap-2 px-3.5 py-2 bg-zinc-100 rounded-lg text-xs font-bold text-zinc-800">
+                <Check className="w-4 h-4 text-[#a31414]" />
+                <span>ISPM-15 Timber Export Crates</span>
               </div>
             </div>
           </div>

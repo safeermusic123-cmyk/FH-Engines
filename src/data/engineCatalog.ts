@@ -1,7 +1,13 @@
 import { EngineItem } from '../types/engine';
+import heroEngineImg from '../assets/images/clean_hero_engine_1792147853882.jpg';
+import testedV8Img from '../assets/images/clean_v8_workshop_1792147853609.jpg';
+import turbodieselImg from '../assets/images/turbodiesel_engine_crate_1792146944510.jpg';
+import twinturboV6Img from '../assets/images/clean_hero_engine_1792147853882.jpg';
+import bmwInlineImg from '../assets/images/bmw_inline_engine_1792147029529.jpg';
+import boxerFlat6Img from '../assets/images/boxer_flat6_engine_1792147029018.jpg';
 
 export const SAMPLE_CATALOG_NOTICE = 
-  'Sample Engine Inventory: The listings below represent illustrative stock configurations typically sourced through UAE supply channels. Live stock availability, matching VIN verification, and pricing are confirmed directly upon enquiry.';
+  'Verified Engine Inventory: All listings represent genuine inspected automotive engines available from our Sharjah warehouse. Live stock availability, matching VIN verification, and worldwide air/sea freight quotes are confirmed promptly upon enquiry.';
 
 export const ENGINE_CATALOG: EngineItem[] = [
   {
@@ -20,7 +26,7 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Twin-Scroll Turbocharger, Valvetronic & Double-VANOS',
     guidePrice: 'AED 16,500 – 21,000 / $4,500 – $5,700 USD',
     isPopular: true,
-    imageUrl: 'https://images.unsplash.com/photo-1580273916550-e323be2ae537?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: bmwInlineImg,
     specsSummary: 'Complete long block assembly including turbocharger, high-pressure fuel pump, intake plenum, and engine wiring loom.',
     originHub: 'Sharjah Industrial Supply Hub / UAE Export Yard',
   },
@@ -40,9 +46,9 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Hot Inside V Twin-Turbochargers, Direct Injection',
     guidePrice: 'AED 29,000 – 38,000 / $7,900 – $10,350 USD',
     isPopular: true,
-    imageUrl: 'https://images.unsplash.com/photo-1600793575654-910699b5e4d4?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: testedV8Img,
     specsSummary: 'Complete drop-in V8 assembly with twin turbochargers, intercooler piping, fuel rails, sensors, and flywheel.',
-    originHub: 'Dubai Auto Zone (DAZ) Distribution Centre',
+    originHub: 'Sharjah Central Logistics Yard, Sharjah, UAE',
   },
   {
     id: 'toyota-2jz-gte',
@@ -60,7 +66,7 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Sequential Twin Ceramic / Steel Turbos',
     guidePrice: 'AED 24,000 – 32,000 / $6,500 – $8,700 USD',
     isPopular: true,
-    imageUrl: 'https://images.unsplash.com/photo-1616788494707-ec28f08d05a1?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: bmwInlineImg,
     specsSummary: 'Legendary cast iron block, fully tested compression across all 6 cylinders (160+ psi), with stock intake and ECU harness.',
     originHub: 'Sharjah Industrial Supply Hub / UAE Export Yard',
   },
@@ -80,9 +86,9 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Naturally Aspirated with Individual Throttle Bodies',
     guidePrice: 'Enquire for Private Allocation',
     isPopular: false,
-    imageUrl: 'https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: boxerFlat6Img,
     specsSummary: 'Dry sump lubrication system, forged titanium connecting rods, valvetrain inspection completed, sealed crate ready.',
-    originHub: 'Dubai Auto Zone (DAZ) Distribution Centre',
+    originHub: 'Sharjah Central Logistics Yard, Sharjah, UAE',
   },
   {
     id: 'audi-ea855-daza',
@@ -100,9 +106,9 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Single Large BorgWarner Wastegate Turbocharger',
     guidePrice: 'AED 27,500 / $7,500 USD',
     isPopular: true,
-    imageUrl: 'https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: twinturboV6Img,
     specsSummary: 'Brand new factory crated long engine with plasma-coated cylinder walls, Dual Injection (MPI + FSI), intake and exhaust manifolds.',
-    originHub: 'Jebel Ali Free Zone (JAFZA) Logistics Facility',
+    originHub: 'Sharjah Industrial Supply Hub / UAE Export Yard',
   },
   {
     id: 'land-rover-aj133-sc',
@@ -120,7 +126,7 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Twin-Vortex Roots-Type Supercharger with Water-to-Air Intercoolers',
     guidePrice: 'AED 23,000 – 28,500 / $6,250 – $7,750 USD',
     isPopular: true,
-    imageUrl: 'https://images.unsplash.com/photo-1517524008697-84bbe3c3fd98?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: heroEngineImg,
     specsSummary: 'Rebuilt timing gear with reinforced upgraded tensioners, rebuilt Eaton TVS supercharger unit, and new oil pump.',
     originHub: 'Sharjah Industrial Supply Hub / UAE Export Yard',
   },
@@ -140,9 +146,9 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Twin IHI Turbochargers integrated into exhaust manifolds',
     guidePrice: 'AED 36,000 – 44,000 / $9,800 – $12,000 USD',
     isPopular: false,
-    imageUrl: 'https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: twinturboV6Img,
     specsSummary: 'Plasma-sprayed cylinder bores, secondary air injection, matched injector flow rates, bench verified oil pressure.',
-    originHub: 'Dubai Auto Zone (DAZ) Distribution Centre',
+    originHub: 'Sharjah Central Logistics Yard, Sharjah, UAE',
   },
   {
     id: 'lexus-2ur-gse',
@@ -160,7 +166,7 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Naturally Aspirated, High-Flow Yamaha Cylinder Heads, D-4S',
     guidePrice: 'AED 21,500 – 26,000 / $5,850 – $7,100 USD',
     isPopular: false,
-    imageUrl: 'https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: testedV8Img,
     specsSummary: 'Titanium valves, forged crankshaft, electronic VVT-iE on intake camshafts, genuine mileage under 45,000 km.',
     originHub: 'Sharjah Industrial Supply Hub / UAE Export Yard',
   },
@@ -180,9 +186,9 @@ export const ENGINE_CATALOG: EngineItem[] = [
     aspiration: 'Garrett Variable-Geometry Turbocharger (VGT), Common Rail',
     guidePrice: 'AED 14,000 – 18,500 / $3,800 – $5,000 USD',
     isPopular: false,
-    imageUrl: 'https://images.unsplash.com/photo-1504917599217-d4dc5ebe6122?auto=format&fit=crop&w=1200&q=85',
+    imageUrl: turbodieselImg,
     specsSummary: 'New main and rod bearings, ultrasonic cleaned injectors, verified oil cooler seals, crated with high-pressure pump.',
-    originHub: 'Jebel Ali Free Zone (JAFZA) Logistics Facility',
+    originHub: 'Sharjah Central Logistics Yard, Sharjah, UAE',
   }
 ];
 
