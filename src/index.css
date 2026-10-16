@@ -63,3 +63,53 @@ html.lenis, html.lenis body {
   background: #a31414;
   color: #ffffff;
 }
+
+/* Cinematic Ken Burns Animations for About & Contact Background Images */
+@keyframes aboutKenBurns {
+  0% {
+    transform: scale(1.02) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.10) translate(-1.5%, -1%);
+  }
+  100% {
+    transform: scale(1.02) translate(0%, 0%);
+  }
+}
+
+@keyframes contactKenBurns {
+  0% {
+    transform: scale(1.02) translate(0%, 0%);
+  }
+  50% {
+    transform: scale(1.09) translate(1.2%, -1.2%);
+  }
+  100% {
+    transform: scale(1.02) translate(0%, 0%);
+  }
+}
+
+@keyframes engineGlowPulse {
+  0%, 100% {
+    opacity: 0.25;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.08);
+  }
+}
+
+.animate-about-bg {
+  animation: aboutKenBurns 22s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.animate-contact-bg {
+  animation: contactKenBurns 24s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.animate-engine-glow {
+  animation: engineGlowPulse 4.5s ease-in-out infinite alternate;
+}

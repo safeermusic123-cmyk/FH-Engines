@@ -14,6 +14,19 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
   onClearPrefill,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { currentTarget, clientX, clientY } = e;
+    const rect = currentTarget.getBoundingClientRect();
+    const x = ((clientX - rect.left) / rect.width - 0.5) * 18;
+    const y = ((clientY - rect.top) / rect.height - 0.5) * 18;
+    setMouseOffset({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMouseOffset({ x: 0, y: 0 });
+  };
 
   const [form, setForm] = useState({
     fullName: '',
@@ -115,15 +128,26 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
     <section
       id="contact"
       ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="py-20 lg:py-28 relative border-b border-zinc-900 overflow-hidden bg-black"
     >
-      {/* Background Image: Dark supercar with exposed engine & red racing stripe clearly visible */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Background Image: Dark supercar with exposed engine & red racing stripe with dynamic animation */}
+      <div 
+        className="absolute -inset-6 z-0 pointer-events-none transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+        }}
+      >
         <img
           src={contactBgImage}
           alt="Contact background supercar engine"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center animate-contact-bg origin-center filter brightness-[1.02] contrast-[1.08]"
         />
+
+        {/* Ambient Engine Heat & Racing Stripe Glow Pulse */}
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-96 h-96 bg-red-600/20 rounded-full blur-3xl animate-engine-glow pointer-events-none" />
+
         {/* Subtle cinematic vignette that keeps the engine and red racing stripe vividly visible */}
         <div className="absolute inset-0 bg-black/35" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-transparent to-black/80" />

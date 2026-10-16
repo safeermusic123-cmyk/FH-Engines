@@ -1,18 +1,39 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import aboutBgImage from '../assets/images/aboutimage.png';
 
 export const AboutSection: React.FC = () => {
+  const [mouseOffset, setMouseOffset] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const { currentTarget, clientX, clientY } = e;
+    const rect = currentTarget.getBoundingClientRect();
+    const x = ((clientX - rect.left) / rect.width - 0.5) * 16;
+    const y = ((clientY - rect.top) / rect.height - 0.5) * 16;
+    setMouseOffset({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setMouseOffset({ x: 0, y: 0 });
+  };
+
   return (
     <section
       id="about-us"
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
       className="py-24 lg:py-32 relative border-b border-zinc-200 overflow-hidden bg-zinc-100"
     >
-      {/* Background Image: Aerial coastal boulevard clearly visible */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
+      {/* Background Image: Aerial coastal boulevard with continuous cinematic animation */}
+      <div 
+        className="absolute -inset-6 z-0 pointer-events-none transition-transform duration-700 ease-out"
+        style={{
+          transform: `translate3d(${mouseOffset.x}px, ${mouseOffset.y}px, 0)`,
+        }}
+      >
         <img
           src={aboutBgImage}
           alt="About background"
-          className="w-full h-full object-cover object-center"
+          className="w-full h-full object-cover object-center animate-about-bg origin-center filter brightness-[1.02] contrast-[1.05]"
         />
         {/* Soft elegant gradient providing contrast on the text side while keeping the beach and ocean vivid on the right */}
         <div className="absolute inset-0 bg-white/25" />

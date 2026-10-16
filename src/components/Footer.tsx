@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight, ShieldCheck, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
+import { Footer3DBackground } from './Footer3DBackground';
 
 interface FooterProps {
   onNavigate?: (page: 'home' | 'engines', targetSection?: string) => void;
@@ -17,9 +18,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onRequestQuote }) =>
   };
 
   return (
-    <footer className="bg-[#0f172a] text-zinc-400 border-t border-zinc-800 pt-16 pb-12">
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-zinc-800">
+    <footer className="relative bg-[#070b14] text-zinc-400 border-t border-zinc-800/80 pt-16 pb-12 overflow-hidden">
+      {/* 3D Background Video & Real-time Three.js Layer */}
+      <Footer3DBackground />
+
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 pb-14 border-b border-zinc-800/80">
           {/* Col 1: Brand & Description */}
           <div className="lg:col-span-5">
             <div className="flex items-center gap-3 mb-4">
