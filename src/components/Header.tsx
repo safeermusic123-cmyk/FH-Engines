@@ -18,13 +18,22 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
 
   useEffect(() => {
+    // Reveal top bar slowly 2.3 seconds after the video starts
+    const timer = setTimeout(() => {
+      setIsHeaderVisible(true);
+    }, 2300);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
   const navItems: { label: 'Home' | 'Engines' | 'About' | 'Contact'; page: 'home' | 'engines'; target: string }[] = [
@@ -41,7 +50,11 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ease-out ${
+        !isHeaderVisible
+          ? 'opacity-0 -translate-y-5 pointer-events-none'
+          : 'opacity-100 translate-y-0 pointer-events-auto'
+      } ${
         isScrolled
           ? 'bg-white/80 backdrop-blur-md shadow-xs border-b border-zinc-200/60 py-3.5'
           : 'bg-transparent border-b border-transparent py-4 sm:py-5'
