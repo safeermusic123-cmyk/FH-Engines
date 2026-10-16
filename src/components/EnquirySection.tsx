@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, CheckCircle2, ShieldCheck, X, Mail, Phone, MessageSquare, MapPin } from 'lucide-react';
 import { EngineItem } from '../types/engine';
 import { gsap, useGSAP } from '../lib/gsap';
+import contactBgImage from '../assets/images/Contactimage.png';
 
 interface EnquirySectionProps {
   prefilledEngine: EngineItem | null;
@@ -114,21 +115,28 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
     <section
       id="contact"
       ref={containerRef}
-      className="py-20 lg:py-28 bg-[#f8fafc] border-b border-zinc-200 relative"
+      className="py-20 lg:py-28 relative border-b border-zinc-900 overflow-hidden bg-black"
     >
-      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+      {/* Background Image: Dark supercar with exposed engine & red racing stripe clearly visible */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <img
+          src={contactBgImage}
+          alt="Contact background supercar engine"
+          className="w-full h-full object-cover object-center"
+        />
+        {/* Subtle cinematic vignette that keeps the engine and red racing stripe vividly visible */}
+        <div className="absolute inset-0 bg-black/35" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-transparent to-black/80" />
+      </div>
+
+      <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 relative z-10">
         {/* Section Header */}
         <div className="max-w-3xl mx-auto mb-12 text-center">
-          <div className="enquiry-anim inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#a31414] font-bold mb-3">
-            <Mail className="w-3.5 h-3.5 text-[#a31414]" />
-            <span>FH ENGINE · SHARJAH ENQUIRY DESK</span>
-          </div>
-
-          <h2 className="enquiry-anim text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#0f172a] tracking-tight mb-4">
+          <h2 className="enquiry-anim text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white tracking-tight mb-4">
             Request an Engine Quotation
           </h2>
 
-          <p className="enquiry-anim text-sm sm:text-base text-zinc-600 font-normal leading-relaxed max-w-xl mx-auto">
+          <p className="enquiry-anim text-sm sm:text-base text-zinc-300 font-normal leading-relaxed max-w-xl mx-auto">
             Provide your vehicle specification and target engine code so our Sharjah team can verify stock availability, compression data, and dispatch timelines.
           </p>
 
@@ -136,9 +144,9 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
           <div className="enquiry-anim mt-6 flex flex-wrap items-center justify-center gap-3">
             <a
               href="tel:+971585188315"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 rounded-full text-xs font-bold text-zinc-800 hover:border-[#a31414] transition-all shadow-2xs"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-xs font-bold text-white transition-all shadow-md backdrop-blur-md"
             >
-              <Phone className="w-3.5 h-3.5 text-[#a31414]" />
+              <Phone className="w-3.5 h-3.5 text-red-400" />
               <span>Call: +971 58 518 8315</span>
             </a>
 
@@ -146,14 +154,14 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
               href="https://wa.me/971585188315"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 border border-emerald-200 rounded-full text-xs font-bold text-emerald-800 hover:bg-emerald-100 transition-all shadow-2xs"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/40 rounded-full text-xs font-bold text-emerald-300 hover:bg-emerald-500/30 transition-all shadow-md backdrop-blur-md"
             >
-              <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
               <span>WhatsApp: +971 58 518 8315</span>
             </a>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-zinc-200 rounded-full text-xs font-semibold text-zinc-600 shadow-2xs">
-              <MapPin className="w-3.5 h-3.5 text-zinc-400" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 rounded-full text-xs font-semibold text-zinc-300 backdrop-blur-md">
+              <MapPin className="w-3.5 h-3.5 text-red-400" />
               <span>Sharjah, UAE</span>
             </div>
           </div>
@@ -161,16 +169,16 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
 
         {/* Prefilled selection banner if active */}
         {prefilledEngine && !submittedData && (
-          <div className="max-w-3xl mx-auto mb-8 p-4 bg-white border-2 border-[#a31414] rounded-xl shadow-xs flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2.5 text-zinc-900">
+          <div className="max-w-3xl mx-auto mb-8 p-4 bg-black/60 backdrop-blur-md border-2 border-[#a31414] rounded-xl shadow-xl flex items-center justify-between text-xs text-white">
+            <div className="flex items-center gap-2.5">
               <span className="w-2.5 h-2.5 bg-[#a31414] rounded-full animate-ping" />
-              <span className="font-bold uppercase tracking-wider text-zinc-500">Selected Engine:</span>
-              <strong className="text-[#a31414] text-sm font-bold">{prefilledEngine.name}</strong>
-              <span className="text-zinc-500">({prefilledEngine.engineCode})</span>
+              <span className="font-bold uppercase tracking-wider text-zinc-300">Selected Engine:</span>
+              <strong className="text-white text-sm font-bold">{prefilledEngine.name}</strong>
+              <span className="text-red-300 font-mono">({prefilledEngine.engineCode})</span>
             </div>
             <button
               onClick={onClearPrefill}
-              className="text-zinc-400 hover:text-red-600 transition-colors cursor-pointer p-1"
+              className="text-zinc-400 hover:text-white transition-colors cursor-pointer p-1"
               title="Clear prefilled engine"
             >
               <X className="w-4 h-4" />
@@ -178,49 +186,49 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
           </div>
         )}
 
-        {/* Form Card */}
-        <div className="enquiry-anim max-w-3xl mx-auto bg-white border border-zinc-200 rounded-2xl p-6 sm:p-10 shadow-sm">
+        {/* Transparent Theme Form Card */}
+        <div className="enquiry-anim max-w-3xl mx-auto bg-black/55 backdrop-blur-xl border border-white/15 rounded-2xl p-6 sm:p-10 shadow-2xl text-white">
           {submittedData ? (
             <div className="py-6 text-center">
-              <div className="w-14 h-14 bg-red-50 rounded-full flex items-center justify-center text-[#a31414] mx-auto mb-5">
+              <div className="w-14 h-14 bg-red-900/40 border border-[#a31414] rounded-full flex items-center justify-center text-red-400 mx-auto mb-5">
                 <CheckCircle2 className="w-7 h-7" />
               </div>
 
-              <h3 className="text-2xl font-heading font-extrabold text-[#0f172a] mb-2">
+              <h3 className="text-2xl font-heading font-extrabold text-white mb-2">
                 Enquiry Received at FH Engine Desk
               </h3>
 
-              <p className="text-sm text-zinc-600 max-w-md mx-auto mb-8 leading-relaxed">
-                Thank you, <strong className="text-zinc-900">{submittedData.fullName}</strong>. Your enquiry for the{' '}
-                <strong className="text-zinc-900">
+              <p className="text-sm text-zinc-300 max-w-md mx-auto mb-8 leading-relaxed">
+                Thank you, <strong className="text-white">{submittedData.fullName}</strong>. Your enquiry for the{' '}
+                <strong className="text-white">
                   {submittedData.vehicleYear} {submittedData.vehicleMake} {submittedData.vehicleModel}
                 </strong>{' '}
                 engine has been submitted. Our technical team in Sharjah will contact you shortly via WhatsApp or email.
               </p>
 
               {/* Receipt Dossier */}
-              <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-5 text-left text-xs space-y-2 mb-8">
-                <div className="text-xs uppercase tracking-wider text-[#a31414] font-bold pb-2 border-b border-zinc-200">
+              <div className="bg-white/5 border border-white/15 rounded-xl p-5 text-left text-xs space-y-2 mb-8 text-zinc-300">
+                <div className="text-xs uppercase tracking-wider text-red-400 font-bold pb-2 border-b border-white/10">
                   Submitted Specification Details
                 </div>
-                <div className="text-zinc-800">
-                  <span className="text-zinc-500 font-medium">Customer:</span> {submittedData.fullName} ({submittedData.email})
+                <div>
+                  <span className="text-zinc-400 font-medium">Customer:</span> {submittedData.fullName} ({submittedData.email})
                 </div>
-                <div className="text-zinc-800">
-                  <span className="text-zinc-500 font-medium">Phone / WhatsApp:</span> {submittedData.phone} ({submittedData.country || 'Not specified'})
+                <div>
+                  <span className="text-zinc-400 font-medium">Phone / WhatsApp:</span> {submittedData.phone} ({submittedData.country || 'Not specified'})
                 </div>
-                <div className="text-zinc-800">
-                  <span className="text-zinc-500 font-medium">Vehicle:</span> {submittedData.vehicleYear} {submittedData.vehicleMake} {submittedData.vehicleModel}
+                <div>
+                  <span className="text-zinc-400 font-medium">Vehicle:</span> {submittedData.vehicleYear} {submittedData.vehicleMake} {submittedData.vehicleModel}
                 </div>
-                <div className="text-zinc-800">
-                  <span className="text-zinc-500 font-medium">Engine Code:</span> {submittedData.engineCode || 'To be verified from VIN'}
+                <div>
+                  <span className="text-zinc-400 font-medium">Engine Code:</span> {submittedData.engineCode || 'To be verified from VIN'}
                 </div>
-                <div className="text-zinc-800">
-                  <span className="text-zinc-500 font-medium">Condition Preference:</span> {submittedData.condition}
+                <div>
+                  <span className="text-zinc-400 font-medium">Condition Preference:</span> {submittedData.condition}
                 </div>
                 {submittedData.message && (
-                  <div className="text-zinc-800 pt-1">
-                    <span className="text-zinc-500 font-medium">Message:</span> {submittedData.message}
+                  <div className="pt-1">
+                    <span className="text-zinc-400 font-medium">Message:</span> {submittedData.message}
                   </div>
                 )}
               </div>
@@ -236,9 +244,10 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                   href="https://wa.me/971585188315"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-6 py-3 text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 hover:bg-emerald-200 rounded-lg transition-colors"
+                  className="w-full sm:w-auto px-6 py-3 text-xs font-bold uppercase tracking-wider text-emerald-300 bg-emerald-950/60 border border-emerald-500/40 hover:bg-emerald-900/60 rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
-                  Direct WhatsApp Follow-up
+                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
+                  <span>Direct WhatsApp Follow-up</span>
                 </a>
               </div>
             </div>
@@ -247,8 +256,8 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
               {/* Row 1: Name & Email */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
-                    Full Name <span className="text-[#a31414]">*</span>
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
+                    Full Name <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -256,18 +265,18 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.fullName}
                     onChange={handleChange}
                     placeholder="e.g. Tariq Al-Mansoor"
-                    className={`w-full px-4 py-2.5 bg-zinc-50 border rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all ${
-                      errors.fullName ? 'border-red-400 bg-red-50/30' : 'border-zinc-200'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all ${
+                      errors.fullName ? 'border-red-400 bg-red-950/30' : 'border-white/20'
                     }`}
                   />
                   {errors.fullName && (
-                    <span className="text-[11px] text-red-500 mt-1 block">{errors.fullName}</span>
+                    <span className="text-[11px] text-red-400 mt-1 block">{errors.fullName}</span>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
-                    Email Address <span className="text-[#a31414]">*</span>
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
+                    Email Address <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="email"
@@ -275,12 +284,12 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.email}
                     onChange={handleChange}
                     placeholder="e.g. contact@workshop.com"
-                    className={`w-full px-4 py-2.5 bg-zinc-50 border rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all ${
-                      errors.email ? 'border-red-400 bg-red-50/30' : 'border-zinc-200'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all ${
+                      errors.email ? 'border-red-400 bg-red-950/30' : 'border-white/20'
                     }`}
                   />
                   {errors.email && (
-                    <span className="text-[11px] text-red-500 mt-1 block">{errors.email}</span>
+                    <span className="text-[11px] text-red-400 mt-1 block">{errors.email}</span>
                   )}
                 </div>
               </div>
@@ -288,8 +297,8 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
               {/* Row 2: Phone & Country */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
-                    Phone / WhatsApp Number <span className="text-[#a31414]">*</span>
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
+                    Phone / WhatsApp Number <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="tel"
@@ -297,17 +306,17 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.phone}
                     onChange={handleChange}
                     placeholder="e.g. +971 58 518 8315"
-                    className={`w-full px-4 py-2.5 bg-zinc-50 border rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all ${
-                      errors.phone ? 'border-red-400 bg-red-50/30' : 'border-zinc-200'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all ${
+                      errors.phone ? 'border-red-400 bg-red-950/30' : 'border-white/20'
                     }`}
                   />
                   {errors.phone && (
-                    <span className="text-[11px] text-red-500 mt-1 block">{errors.phone}</span>
+                    <span className="text-[11px] text-red-400 mt-1 block">{errors.phone}</span>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
                     Destination Country / City
                   </label>
                   <input
@@ -316,7 +325,7 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.country}
                     onChange={handleChange}
                     placeholder="e.g. Sharjah UAE, Saudi Arabia, UK..."
-                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all"
                   />
                 </div>
               </div>
@@ -324,8 +333,8 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
               {/* Row 3: Make, Model, Year */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
-                    Vehicle Make <span className="text-[#a31414]">*</span>
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
+                    Vehicle Make <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -333,18 +342,18 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.vehicleMake}
                     onChange={handleChange}
                     placeholder="e.g. BMW, Mercedes, Toyota"
-                    className={`w-full px-4 py-2.5 bg-zinc-50 border rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all ${
-                      errors.vehicleMake ? 'border-red-400 bg-red-50/30' : 'border-zinc-200'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all ${
+                      errors.vehicleMake ? 'border-red-400 bg-red-950/30' : 'border-white/20'
                     }`}
                   />
                   {errors.vehicleMake && (
-                    <span className="text-[11px] text-red-500 mt-1 block">{errors.vehicleMake}</span>
+                    <span className="text-[11px] text-red-400 mt-1 block">{errors.vehicleMake}</span>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
-                    Vehicle Model <span className="text-[#a31414]">*</span>
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
+                    Vehicle Model <span className="text-red-400">*</span>
                   </label>
                   <input
                     type="text"
@@ -352,17 +361,17 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.vehicleModel}
                     onChange={handleChange}
                     placeholder="e.g. 540i, G63, Land Cruiser"
-                    className={`w-full px-4 py-2.5 bg-zinc-50 border rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all ${
-                      errors.vehicleModel ? 'border-red-400 bg-red-50/30' : 'border-zinc-200'
+                    className={`w-full px-4 py-2.5 bg-white/10 border rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all ${
+                      errors.vehicleModel ? 'border-red-400 bg-red-950/30' : 'border-white/20'
                     }`}
                   />
                   {errors.vehicleModel && (
-                    <span className="text-[11px] text-red-500 mt-1 block">{errors.vehicleModel}</span>
+                    <span className="text-[11px] text-red-400 mt-1 block">{errors.vehicleModel}</span>
                   )}
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
                     Model Year
                   </label>
                   <input
@@ -371,7 +380,7 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.vehicleYear}
                     onChange={handleChange}
                     placeholder="e.g. 2019"
-                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all"
                   />
                 </div>
               </div>
@@ -379,7 +388,7 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
               {/* Row 4: Engine Code & Condition */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
                     Engine Code (If Known)
                   </label>
                   <input
@@ -388,31 +397,31 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                     value={form.engineCode}
                     onChange={handleChange}
                     placeholder="e.g. B58B30, M177, 2JZ-GTE, OM642"
-                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all"
+                    className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
+                  <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
                     Engine Condition Preference
                   </label>
                   <select
                     name="condition"
                     value={form.condition}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all cursor-pointer"
+                    className="w-full px-4 py-2.5 bg-zinc-900/90 border border-white/20 rounded-lg text-xs sm:text-sm text-white focus:outline-none focus:border-[#a31414] transition-all cursor-pointer"
                   >
-                    <option value="Tested Low-Mileage Used">Tested Low-Mileage Used</option>
-                    <option value="Reconditioned / Refurbished">Reconditioned / Refurbished</option>
-                    <option value="New OEM Crate">New OEM Crate</option>
-                    <option value="Any Compatible Option">Any Compatible Option</option>
+                    <option value="Tested Low-Mileage Used" className="bg-zinc-900 text-white">Tested Low-Mileage Used</option>
+                    <option value="Reconditioned / Refurbished" className="bg-zinc-900 text-white">Reconditioned / Refurbished</option>
+                    <option value="New OEM Crate" className="bg-zinc-900 text-white">New OEM Crate</option>
+                    <option value="Any Compatible Option" className="bg-zinc-900 text-white">Any Compatible Option</option>
                   </select>
                 </div>
               </div>
 
               {/* Row 5: Message & VIN */}
               <div>
-                <label className="block text-xs uppercase tracking-wider text-zinc-700 font-bold mb-2">
+                <label className="block text-xs uppercase tracking-wider text-zinc-300 font-bold mb-2">
                   Additional Details & VIN Number (Optional)
                 </label>
                 <textarea
@@ -421,20 +430,20 @@ export const EnquirySection: React.FC<EnquirySectionProps> = ({
                   value={form.message}
                   onChange={handleChange}
                   placeholder="Provide your 17-character VIN number, delivery destination, or specific accessories needed..."
-                  className="w-full px-4 py-2.5 bg-zinc-50 border border-zinc-200 rounded-lg text-xs sm:text-sm text-zinc-900 focus:outline-none focus:border-[#a31414] focus:bg-white transition-all resize-none"
+                  className="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-lg text-xs sm:text-sm text-white placeholder:text-zinc-400 focus:outline-none focus:border-[#a31414] focus:bg-black/50 transition-all resize-none"
                 />
               </div>
 
               {/* Submit & Disclaimer */}
-              <div className="pt-4 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <div className="flex items-center gap-2 text-xs font-medium text-zinc-600">
-                  <ShieldCheck className="w-4 h-4 text-[#a31414]" />
+              <div className="pt-4 border-t border-white/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div className="flex items-center gap-2 text-xs font-medium text-zinc-300">
+                  <ShieldCheck className="w-4 h-4 text-red-400" />
                   <span>Physical block codes checked before shipment</span>
                 </div>
 
                 <button
                   type="submit"
-                  className="w-full sm:w-auto px-8 py-3 text-xs font-bold uppercase tracking-wider text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.99] transition-all rounded-lg cursor-pointer shadow-xs flex items-center justify-center gap-2"
+                  className="w-full sm:w-auto px-8 py-3 text-xs font-bold uppercase tracking-wider text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.99] transition-all rounded-lg cursor-pointer shadow-lg shadow-red-950/60 flex items-center justify-center gap-2"
                 >
                   <span>Submit Engine Enquiry</span>
                   <Send className="w-3.5 h-3.5" />

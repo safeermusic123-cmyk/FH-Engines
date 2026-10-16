@@ -342,22 +342,14 @@ export const EngineCatalog: React.FC<EngineCatalogProps> = ({
                   </div>
                 </div>
 
-                {/* Footer Buttons */}
-                <div className="p-5 pt-0 flex items-center gap-2">
+                {/* Footer Button: Single View Details option */}
+                <div className="p-5 pt-0">
                   <button
                     onClick={() => onViewDetails(engine)}
-                    className="flex-1 py-2.5 px-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
+                    className="w-full py-2.5 px-4 bg-[#0f172a] hover:bg-[#a31414] active:scale-[0.99] text-white text-xs font-bold uppercase tracking-wider rounded-md transition-all duration-200 flex items-center justify-center gap-2 cursor-pointer shadow-xs group/btn"
                   >
-                    <Eye className="w-3.5 h-3.5" />
-                    <span>View Specs</span>
-                  </button>
-
-                  <button
-                    onClick={() => onSelectEngineForEnquiry(engine)}
-                    className="flex-1 py-2.5 px-3 bg-[#a31414] hover:bg-[#881010] text-white text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs group/btn"
-                  >
-                    <span>Request Quote</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
+                    <span>View Details</span>
+                    <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-1 transition-transform" />
                   </button>
                 </div>
               </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Flame, Eye, Sparkles } from 'lucide-react';
+import { ArrowLeft, ArrowRight, CheckCircle2, ShieldCheck, Mail } from 'lucide-react';
 import { EngineItem } from '../types/engine';
 import { ENGINE_CATALOG } from '../data/engineCatalog';
 
@@ -14,29 +14,49 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
   onViewDetails,
   onViewAllEngines,
 }) => {
-  // Select top 6 recent engine arrivals
+  // Strictly 6 recent engine arrivals
   const recentEngines = ENGINE_CATALOG.slice(0, 6);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartXRef = useRef<number>(0);
 
-  // Auto-scroll slider every 3.8 seconds if not paused
+  // Responsive visible cards count
+  const [visibleCount, setVisibleCount] = useState(3);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768) {
+        setVisibleCount(1);
+      } else if (window.innerWidth < 1024) {
+        setVisibleCount(2);
+      } else {
+        setVisibleCount(3);
+      }
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const maxIndex = Math.max(0, recentEngines.length - visibleCount);
+
+  // Auto-scroll slider every 4 seconds if not paused
   useEffect(() => {
     if (isPaused) return;
 
     const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % recentEngines.length);
-    }, 3800);
+      setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
+    }, 4000);
 
     return () => clearInterval(timer);
-  }, [isPaused, recentEngines.length]);
+  }, [isPaused, maxIndex]);
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + recentEngines.length) % recentEngines.length);
+    setCurrentIndex((prev) => (prev <= 0 ? maxIndex : prev - 1));
   };
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % recentEngines.length);
+    setCurrentIndex((prev) => (prev >= maxIndex ? 0 : prev + 1));
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -62,10 +82,6 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#a31414] font-bold mb-3">
-              <span className="w-2 h-2 rounded-full bg-[#a31414] animate-pulse" />
-              <span>FRESH INVENTORY · SHARJAH HUB</span>
-            </div>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-[#0f172a] tracking-tight">
               Recent Engine Arrivals
             </h2>
@@ -114,7 +130,7 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
             <div
               className="flex transition-transform duration-700 ease-out"
               style={{
-                transform: `translateX(-${currentIndex * 100}%)`,
+                transform: `translateX(-${currentIndex * (100 / visibleCount)}%)`,
               }}
             >
               {recentEngines.map((engine) => (
@@ -124,7 +140,11 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
                 >
                   <div className="h-full bg-white rounded-xl border border-zinc-200 overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 flex flex-col group">
                     {/* Pure Engine Image without any text on top */}
-                    <div className="relative aspect-[16/11] bg-zinc-900 overflow-hidden">
+                    <div 
+                      onClick={() => onViewDetails(engine)}
+                      className="relative aspect-[16/11] bg-zinc-900 overflow-hidden cursor-pointer"
+                      title="Click to view full engine details"
+                    >
                       <img
                         src={engine.imageUrl}
                         alt={engine.name}
@@ -157,7 +177,10 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
                           </span>
                         </div>
 
-                        <h3 className="text-lg font-heading font-extrabold text-[#0f172a] leading-snug line-clamp-2 mb-2">
+                        <h3 
+                          onClick={() => onViewDetails(engine)}
+                          className="text-lg font-heading font-extrabold text-[#0f172a] leading-snug line-clamp-2 mb-2 hover:text-[#a31414] cursor-pointer transition-colors"
+                        >
                           {engine.name}
                         </h3>
 
@@ -192,21 +215,15 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
                         </div>
                       </div>
 
-                      {/* Action buttons */}
-                      <div className="pt-3 border-t border-zinc-100 flex items-center gap-2">
-                        <button
-                          onClick={() => onViewDetails(engine)}
-                          className="flex-1 py-2.5 px-3 bg-zinc-100 hover:bg-zinc-200 text-zinc-800 text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
-                        >
-                          <Eye className="w-3.5 h-3.5" />
-                          <span>Specs</span>
-                        </button>
+                      {/* Action button: Clean single enquiry button with Specs option removed */}
+                      <div className="pt-3 border-t border-zinc-100">
                         <button
                           onClick={() => onSelectEngineForEnquiry(engine)}
-                          className="flex-1 py-2.5 px-3 bg-[#a31414] hover:bg-[#881010] text-white text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
+                          className="w-full py-2.5 px-4 bg-[#a31414] hover:bg-[#881010] text-white text-xs font-bold uppercase tracking-wider rounded-md transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs group/btn"
                         >
-                          <span>Enquire</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
+                          <Mail className="w-3.5 h-3.5" />
+                          <span>Request Quotation</span>
+                          <ArrowRight className="w-3.5 h-3.5 group-hover/btn:translate-x-0.5 transition-transform" />
                         </button>
                       </div>
                     </div>
@@ -218,7 +235,7 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
 
           {/* Dots Indicator */}
           <div className="flex items-center justify-center gap-2 mt-8">
-            {recentEngines.map((_, idx) => (
+            {Array.from({ length: maxIndex + 1 }).map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
@@ -234,3 +251,4 @@ export const RecentArrivalsSection: React.FC<RecentArrivalsSectionProps> = ({
     </section>
   );
 };
+

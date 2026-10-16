@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Menu, X, ArrowRight, Phone } from 'lucide-react';
 
 interface HeaderProps {
-  currentPage: 'home' | 'engines';
+  currentPage: 'home' | 'engines' | 'engine-details';
   activeTab: 'Home' | 'Engines' | 'About' | 'Contact';
   onNavigate: (page: 'home' | 'engines', targetSection?: string, label?: 'Home' | 'Engines' | 'About' | 'Contact') => void;
   onRequestQuote: () => void;
@@ -18,10 +18,15 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [isHeaderVisible, setIsHeaderVisible] = useState(currentPage !== 'home');
 
   useEffect(() => {
-    // Reveal top bar slowly 2.3 seconds after the video starts
+    if (currentPage !== 'home') {
+      setIsHeaderVisible(true);
+      return;
+    }
+
+    // Reveal top bar slowly 2.3 seconds after the video starts on home
     const timer = setTimeout(() => {
       setIsHeaderVisible(true);
     }, 2300);
@@ -34,7 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
       clearTimeout(timer);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [currentPage]);
 
   const navItems: { label: 'Home' | 'Engines' | 'About' | 'Contact'; page: 'home' | 'engines'; target: string }[] = [
     { label: 'Home', page: 'home', target: '#hero' },
@@ -48,15 +53,17 @@ export const Header: React.FC<HeaderProps> = ({
     onNavigate(page, target, label);
   };
 
+  const isSolidHeader = currentPage !== 'home' || isScrolled;
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-1000 ease-out ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${
         !isHeaderVisible
           ? 'opacity-0 -translate-y-5 pointer-events-none'
           : 'opacity-100 translate-y-0 pointer-events-auto'
       } ${
-        isScrolled
-          ? 'bg-white/80 backdrop-blur-md shadow-xs border-b border-zinc-200/60 py-3.5'
+        isSolidHeader
+          ? 'bg-white/95 backdrop-blur-md shadow-xs border-b border-zinc-200/80 py-3.5'
           : 'bg-transparent border-b border-transparent py-4 sm:py-5'
       }`}
     >

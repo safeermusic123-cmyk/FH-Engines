@@ -8,16 +8,17 @@ import { EngineCatalog } from './components/EngineCatalog';
 import { AboutSection } from './components/AboutSection';
 import { EnquirySection } from './components/EnquirySection';
 import { Footer } from './components/Footer';
-import { EngineDetailsModal } from './components/EngineDetailsModal';
+import { EngineDetailsPage } from './components/EngineDetailsPage';
 import { EngineItem } from './types/engine';
 import { ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
 
 function MainWebsite() {
   const { scrollTo } = useSmoothScroll();
-  const [currentPage, setCurrentPage] = useState<'home' | 'engines'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'engines' | 'engine-details'>('home');
   const [activeTab, setActiveTab] = useState<'Home' | 'Engines' | 'About' | 'Contact'>('Home');
   const [prefilledEngine, setPrefilledEngine] = useState<EngineItem | null>(null);
-  const [inspectingEngine, setInspectingEngine] = useState<EngineItem | null>(null);
+  const [selectedEngine, setSelectedEngine] = useState<EngineItem | null>(null);
+  const [previousPage, setPreviousPage] = useState<'home' | 'engines'>('home');
 
   // Scroll spy to detect active section when scrolling through the home page
   useEffect(() => {
@@ -60,7 +61,7 @@ function MainWebsite() {
       return;
     }
 
-    if (currentPage === 'engines' && page === 'home') {
+    if ((currentPage === 'engines' || currentPage === 'engine-details') && page === 'home') {
       setCurrentPage('home');
       if (targetSection) {
         setTimeout(() => {
@@ -80,17 +81,28 @@ function MainWebsite() {
     }
   };
 
+  const handleOpenEngineDetails = (engine: EngineItem) => {
+    setPreviousPage(currentPage === 'engine-details' ? previousPage : (currentPage as 'home' | 'engines'));
+    setSelectedEngine(engine);
+    setCurrentPage('engine-details');
+    setActiveTab('Engines');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleSelectEngineForEnquiry = (engine: EngineItem) => {
     setPrefilledEngine(engine);
     if (currentPage === 'home') {
       setActiveTab('Contact');
       scrollTo('#contact', { offset: -70, duration: 1.2 });
-    } else {
+    } else if (currentPage === 'engines') {
       // In engines page, scroll down to the quote section on the page
       const contactEl = document.getElementById('contact');
       if (contactEl) {
         contactEl.scrollIntoView({ behavior: 'smooth' });
       }
+    } else {
+      // From details page, navigate home to contact form
+      handleNavigate('home', '#contact', 'Contact');
     }
   };
 
@@ -98,8 +110,16 @@ function MainWebsite() {
     if (currentPage === 'home') {
       setActiveTab('Contact');
       scrollTo('#contact', { offset: -70, duration: 1.2 });
-    } else {
+    } else if (currentPage === 'engines') {
       const contactEl = document.getElementById('contact');
+      if (contactEl) {
+        contactEl.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        handleNavigate('home', '#contact', 'Contact');
+      }
+    } else {
+      // On details page, scroll to quote form or return to contact
+      const contactEl = document.getElementById('request-quote');
       if (contactEl) {
         contactEl.scrollIntoView({ behavior: 'smooth' });
       } else {
@@ -138,10 +158,10 @@ function MainWebsite() {
             {/* 2. Seamless Marquee Ticker */}
             <ContinuousMarquee />
 
-            {/* 3. Automatic Recent Arrival Engines Slider */}
+            {/* 3. Automatic Recent Arrival Engines Slider: Only 6 engines, Specs button removed */}
             <RecentArrivalsSection
               onSelectEngineForEnquiry={handleSelectEngineForEnquiry}
-              onViewDetails={(engine) => setInspectingEngine(engine)}
+              onViewDetails={handleOpenEngineDetails}
               onViewAllEngines={handleExploreEngines}
             />
 
@@ -154,7 +174,7 @@ function MainWebsite() {
               onClearPrefill={() => setPrefilledEngine(null)}
             />
           </>
-        ) : (
+        ) : currentPage === 'engines' ? (
           /* Dedicated Engines Inventory Page */
           <div className="pt-24 sm:pt-28">
             {/* Page Breadcrumb & Header Banner */}
@@ -196,10 +216,10 @@ function MainWebsite() {
               </div>
             </div>
 
-            {/* Filterable Engine Catalogue Component */}
+            {/* Filterable Engine Catalogue Component: Single 'View Details' option */}
             <EngineCatalog
               onSelectEngineForEnquiry={handleSelectEngineForEnquiry}
-              onViewDetails={(engine) => setInspectingEngine(engine)}
+              onViewDetails={handleOpenEngineDetails}
             />
 
             {/* Direct Enquiry Section on Engines page */}
@@ -208,6 +228,37 @@ function MainWebsite() {
               onClearPrefill={() => setPrefilledEngine(null)}
             />
           </div>
+        ) : (
+          /* Dedicated Engine Details Page */
+          selectedEngine ? (
+            <EngineDetailsPage
+              engine={selectedEngine}
+              onBack={() => {
+                if (previousPage === 'home') {
+                  setCurrentPage('home');
+                } else {
+                  setCurrentPage('engines');
+                }
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onNavigateToEngine={(engine) => {
+                setSelectedEngine(engine);
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+              onExploreCatalog={handleExploreEngines}
+            />
+          ) : (
+            /* Fallback if no engine selected */
+            <div className="pt-32 pb-20 text-center">
+              <h2 className="text-xl font-bold mb-4">No Engine Selected</h2>
+              <button
+                onClick={handleExploreEngines}
+                className="px-6 py-2.5 bg-[#a31414] text-white text-xs font-bold uppercase rounded-lg"
+              >
+                Go to Catalogue
+              </button>
+            </div>
+          )
         )}
       </main>
 
@@ -226,13 +277,6 @@ function MainWebsite() {
         }}
         onRequestQuote={handleRequestQuote}
       />
-
-      {/* Engine Technical Specifications Sheet Modal */}
-      <EngineDetailsModal
-        engine={inspectingEngine}
-        onClose={() => setInspectingEngine(null)}
-        onEnquire={handleSelectEngineForEnquiry}
-      />
     </div>
   );
 }
@@ -244,3 +288,4 @@ export default function App() {
     </SmoothScrollProvider>
   );
 }
+
