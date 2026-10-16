@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, ArrowRight, Phone } from 'lucide-react';
+import { Search, Menu, X, ArrowRight, Phone, Film, Sparkles } from 'lucide-react';
+import { AnimatedLogo } from './AnimatedLogo';
 
 interface HeaderProps {
   currentPage: 'home' | 'engines' | 'engine-details';
@@ -7,6 +8,8 @@ interface HeaderProps {
   onNavigate: (page: 'home' | 'engines', targetSection?: string, label?: 'Home' | 'Engines' | 'About' | 'Contact') => void;
   onRequestQuote: () => void;
   onExploreEngines: () => void;
+  onOpenVideoStudio?: () => void;
+  activeLogoVideoUrl?: string | null;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -15,6 +18,8 @@ export const Header: React.FC<HeaderProps> = ({
   onNavigate,
   onRequestQuote,
   onExploreEngines,
+  onOpenVideoStudio,
+  activeLogoVideoUrl,
 }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -69,27 +74,13 @@ export const Header: React.FC<HeaderProps> = ({
     >
       <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between">
-          {/* Logo Brand: FH Engine */}
-          <button
-            onClick={() => handleNavClick('Home', 'home', '#hero')}
-            className="flex items-center gap-3 text-left cursor-pointer focus:outline-none group"
-          >
-            {/* Stylized FH Monogram in Red & Dark Slate */}
-            <div className="w-9 h-9 rounded-lg bg-[#0f172a] flex items-center justify-center font-heading font-black text-white text-base tracking-tighter shadow-xs group-hover:bg-[#a31414] transition-colors">
-              <span className="text-white">F</span>
-              <span className="text-[#a31414] group-hover:text-white transition-colors">H</span>
-            </div>
-
-            {/* Brand text */}
-            <div className="flex flex-col">
-              <span className="font-heading font-black text-base sm:text-lg tracking-tight text-[#0f172a] uppercase leading-none">
-                FH ENGINE
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-[0.2em] text-[#a31414] mt-0.5">
-                SHARJAH · UAE
-              </span>
-            </div>
-          </button>
+          {/* Logo Brand: FH Engine with Animated Emblem */}
+          <div className="flex items-center">
+            <AnimatedLogo
+              customVideoUrl={activeLogoVideoUrl}
+              onOpenStudio={onOpenVideoStudio}
+            />
+          </div>
 
           {/* Center Navigation Links with Smooth Active Bar Animation */}
           <nav className="hidden md:flex items-center space-x-1 sm:space-x-2 text-sm font-semibold text-zinc-700 bg-white/40 backdrop-blur-xs px-3 py-1.5 rounded-full border border-zinc-200/50 shadow-2xs">
@@ -118,8 +109,24 @@ export const Header: React.FC<HeaderProps> = ({
             })}
           </nav>
 
-          {/* Right Action Buttons: Direct Phone Call + Quote */}
-          <div className="hidden sm:flex items-center space-x-3.5">
+          {/* Right Action Buttons: Veo Studio + Phone Call + Quote */}
+          <div className="hidden sm:flex items-center space-x-2.5">
+            {/* Veo Video Studio Button */}
+            {onOpenVideoStudio && (
+              <button
+                type="button"
+                onClick={onOpenVideoStudio}
+                className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-bold text-zinc-900 bg-white/90 hover:bg-white border border-red-200/80 hover:border-red-400 rounded-lg transition-all shadow-2xs backdrop-blur-xs cursor-pointer group"
+                title="Animate photos and logo into video with Veo 3.1"
+              >
+                <Film className="w-3.5 h-3.5 text-[#a31414] group-hover:scale-110 transition-transform" />
+                <span className="hidden lg:inline">Animate Video</span>
+                <span className="px-1.5 py-0.5 rounded-full text-[9px] font-mono font-bold bg-red-600 text-white uppercase tracking-wider">
+                  Veo 3.1
+                </span>
+              </button>
+            )}
+
             {/* Phone link */}
             <a
               href="tel:+971585188315"
@@ -127,12 +134,13 @@ export const Header: React.FC<HeaderProps> = ({
               title="Call Sharjah Desk"
             >
               <Phone className="w-3.5 h-3.5 text-[#a31414]" />
-              <span>+971 58 518 8315</span>
+              <span className="hidden xl:inline">+971 58 518 8315</span>
+              <span className="xl:hidden">Call</span>
             </a>
 
             <button
               onClick={onRequestQuote}
-              className="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold uppercase tracking-wider text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.98] transition-all rounded-lg shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-wider text-white bg-[#a31414] hover:bg-[#881010] active:scale-[0.98] transition-all rounded-lg shadow-xs cursor-pointer"
             >
               <span>Request Quote</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -141,6 +149,16 @@ export const Header: React.FC<HeaderProps> = ({
 
           {/* Mobile menu toggle */}
           <div className="flex items-center gap-2 md:hidden">
+            {onOpenVideoStudio && (
+              <button
+                type="button"
+                onClick={onOpenVideoStudio}
+                className="p-2 text-xs font-bold text-red-600 bg-red-50 border border-red-200 rounded-lg"
+                title="Veo Video Studio"
+              >
+                <Film className="w-4 h-4" />
+              </button>
+            )}
             <a
               href="tel:+971585188315"
               className="p-2 text-xs font-bold text-zinc-800 bg-white/80 border border-zinc-200/70 rounded-lg"
@@ -169,6 +187,25 @@ export const Header: React.FC<HeaderProps> = ({
       {mobileMenuOpen && (
         <div className="md:hidden bg-white/95 backdrop-blur-md border-b border-zinc-200 px-6 py-5 shadow-lg animate-in slide-in-from-top-2">
           <div className="flex flex-col space-y-3.5">
+            {/* Veo Video Studio Highlight in Mobile Drawer */}
+            {onOpenVideoStudio && (
+              <button
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  onOpenVideoStudio();
+                }}
+                className="flex items-center justify-between w-full p-3 rounded-xl bg-gradient-to-r from-red-50 to-rose-50 border border-red-200 text-left font-bold text-[#a31414] text-xs uppercase tracking-wider"
+              >
+                <div className="flex items-center gap-2">
+                  <Film className="w-4 h-4" />
+                  <span>Animate Video with Veo 3.1</span>
+                </div>
+                <span className="px-2 py-0.5 rounded-full text-[10px] bg-red-600 text-white font-mono">
+                  NEW
+                </span>
+              </button>
+            )}
+
             {navItems.map((item) => (
               <button
                 key={item.label}

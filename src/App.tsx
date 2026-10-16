@@ -10,7 +10,7 @@ import { EnquirySection } from './components/EnquirySection';
 import { Footer } from './components/Footer';
 import { EngineDetailsPage } from './components/EngineDetailsPage';
 import { EngineItem } from './types/engine';
-import { ArrowLeft, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 function MainWebsite() {
   const { scrollTo } = useSmoothScroll();
@@ -177,42 +177,16 @@ function MainWebsite() {
         ) : currentPage === 'engines' ? (
           /* Dedicated Engines Inventory Page */
           <div className="pt-24 sm:pt-28">
-            {/* Page Breadcrumb & Header Banner */}
-            <div className="bg-[#0f172a] text-white py-12 sm:py-16 border-b border-zinc-800">
-              <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12">
+            {/* Page Breadcrumb / Navigation */}
+            <div className="bg-[#0f172a] text-white py-4 border-b border-zinc-800">
+              <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 flex items-center justify-between">
                 <button
                   onClick={() => handleNavigate('home', '#hero', 'Home')}
-                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-colors mb-6 cursor-pointer"
+                  className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-400 hover:text-white transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Home</span>
                 </button>
-
-                <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-                  <div>
-                    <div className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#a31414] font-bold mb-3">
-                      <span className="w-2 h-2 rounded-full bg-[#a31414]" />
-                      <span>FULL WAREHOUSE INVENTORY · SHARJAH HUB</span>
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl md:text-5xl font-heading font-extrabold text-white tracking-tight">
-                      Automotive Engine Catalogue
-                    </h1>
-                    <p className="text-sm sm:text-base text-zinc-300 mt-3 max-w-2xl font-normal leading-relaxed">
-                      Filter our current stock of tested petrol and diesel car engines ready for immediate dispatch from our Sharjah facility or crated export worldwide.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap gap-3">
-                    <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-zinc-800/80 rounded-lg text-xs font-semibold text-zinc-200 border border-zinc-700">
-                      <ShieldCheck className="w-4 h-4 text-[#a31414]" />
-                      <span>Compression Verified</span>
-                    </div>
-                    <div className="inline-flex items-center gap-2 px-4 py-2.5 bg-zinc-800/80 rounded-lg text-xs font-semibold text-zinc-200 border border-zinc-700">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                      <span>OEM Stamped Codes</span>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
 

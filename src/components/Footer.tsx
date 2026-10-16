@@ -1,13 +1,14 @@
 import React from 'react';
-import { ArrowRight, ShieldCheck, MapPin, Phone, Mail, MessageSquare } from 'lucide-react';
+import { ArrowRight, ShieldCheck, MapPin, Phone, Mail, MessageSquare, Film } from 'lucide-react';
 import { Footer3DBackground } from './Footer3DBackground';
 
 interface FooterProps {
   onNavigate?: (page: 'home' | 'engines', targetSection?: string) => void;
   onRequestQuote?: () => void;
+  onOpenVideoStudio?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onNavigate, onRequestQuote }) => {
+export const Footer: React.FC<FooterProps> = ({ onNavigate, onRequestQuote, onOpenVideoStudio }) => {
   const handleNav = (page: 'home' | 'engines', target?: string) => {
     if (onNavigate) {
       onNavigate(page, target);
@@ -99,6 +100,17 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onRequestQuote }) =>
                   Request a Quotation
                 </button>
               </li>
+              {onOpenVideoStudio && (
+                <li>
+                  <button
+                    onClick={onOpenVideoStudio}
+                    className="hover:text-white transition-colors cursor-pointer text-left flex items-center gap-1.5 text-red-400 font-semibold"
+                  >
+                    <Film className="w-3.5 h-3.5" />
+                    <span>Animate Video (Veo 3.1)</span>
+                  </button>
+                </li>
+              )}
             </ul>
           </div>
 
